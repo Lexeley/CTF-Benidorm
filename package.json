@@ -1,0 +1,31 @@
+{
+  "name": "ctf-lucia",
+  "version": "1.0.0",
+  "description": "CTF educativo estático: el portátil y el móvil de Lucía",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "gen": "node scripts/wordlist.mjs && node scripts/hashes.mjs && node scripts/packets.mjs && node scripts/photos.mjs",
+    "answers": "node scripts/answers.mjs",
+    "check": "node scripts/check-answers.mjs"
+  },
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "exifr": "^7.1.3",
+    "js-md5": "^0.11.0",
+    "jsqr": "^1.4.0",
+    "qrcode-generator": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.10",
+    "jpeg-js": "^0.4.4",
+    "piexifjs": "^1.0.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.2"
+  },
+  "private": true
+}
