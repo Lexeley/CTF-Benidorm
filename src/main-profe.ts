@@ -3,6 +3,7 @@ import { scoreSync } from './core/scoresync';
 import { decodeTeam, lastSolveSecs, rankTeams, type TeamData } from './core/teamcode';
 import { confirmDialog, fmtTime, h } from './ui/dom';
 
+document.body.classList.add('wide');
 const app = document.getElementById('app')!;
 const MODE_LABEL = { escritorio: '💻 Portátil', movil: '📱 Móvil' } as const;
 
