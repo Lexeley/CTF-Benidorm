@@ -33,3 +33,8 @@ export function confirmDialog(message: string, okLabel = 'Sí', cancelLabel = 'C
 export async function copyText(text: string): Promise<boolean> {
   try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
 }
+
+export const fmtTime = (secs: number) => {
+  const s = Math.max(0, Math.floor(secs));
+  return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+};

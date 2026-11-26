@@ -7,15 +7,11 @@ import {
 } from '../core/state';
 import { encodeTeam, type TeamData } from '../core/teamcode';
 import { scoreSync } from '../core/scoresync';
-import { confirmDialog, copyText, h } from './dom';
+import { confirmDialog, copyText, fmtTime, h } from './dom';
 import { prefetchKit, renderKit } from '../kit';
 
 const answers = answersJson as Record<string, AnswerEntry>;
 
-export const fmtTime = (secs: number) => {
-  const s = Math.max(0, Math.floor(secs));
-  return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
-};
 
 export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   const app = document.getElementById('app')!;
