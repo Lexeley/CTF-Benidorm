@@ -1,13 +1,13 @@
 import './styles.css';
 import { scoreSync } from './core/scoresync';
-import { decodeTeam, lastSolveSecs, rankTeams, type TeamData } from './core/teamcode';
+import { decodeTeam, rankTeams, type TeamData } from './core/teamcode';
 import { confirmDialog, fmtTime, h } from './ui/dom';
 
 document.body.classList.add('wide');
 const app = document.getElementById('app')!;
 const MODE_LABEL = { escritorio: 'portátil', movil: 'móvil' } as const;
 
-const paste = h('textarea', { id: 'codes', rows: 4, spellcheck: 'false', placeholder: 'LU1.xxxxx.yyy (puedes pegar varios a la vez)' }) as HTMLTextAreaElement;
+const paste = h('textarea', { id: 'codes', rows: 4, spellcheck: 'false', placeholder: '4F7K-2XQ9 Los Cortafuegos\n(un equipo por línea: código y nombre)' }) as HTMLTextAreaElement;
 const msg = h('p', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
 const filter = h('select', { id: 'filter' },
   h('option', { value: '' }, 'Todos'), h('option', { value: 'escritorio' }, 'Portátil'), h('option', { value: 'movil' }, 'Móvil')) as HTMLSelectElement;
@@ -16,11 +16,15 @@ const video = h('video', { playsinline: true, muted: true, style: 'max-width:420
 const scanBtn = h('button', {}, 'Escanear QR');
 
 async function addCodes(text: string) {
-  // Los códigos no tienen espacios: cada palabra pegada es un código (o basura que se informa).
-  const chunks = text.split(/\s+/).filter(Boolean);
+  // Una línea por equipo: «CÓDIGO Nombre». El código admite guion o no (4F7K-2XQ9 / 4F7K2XQ9).
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
   const ok: string[] = [], bad: string[] = [];
-  for (const c of chunks) {
-    try { const t = decodeTeam(c); await scoreSync.publish(t); ok.push(t.n); } catch (e) { bad.push((e as Error).message); }
+  for (const l of lines) {
+    const m = l.match(/^([0-9a-z]{4}[\s-]?[0-9a-z]{4})\s+(.+)$/i);
+    try {
+      if (!m) throw new Error('Formato: CÓDIGO Nombre (p. ej. 4F7K-2XQ9 Los Cortafuegos)');
+      const t = decodeTeam(m[1], m[2]); await scoreSync.publish(t); ok.push(t.n);
+    } catch (e) { bad.push(`«${l}»: ${(e as Error).message}`); }
   }
   msg.className = `feedback ${bad.length ? 'err' : 'ok'}`;
   msg.textContent = [ok.length && `[ok] Añadido: ${ok.join(', ')}`, bad.length && `[error] ${bad.length} código(s) no válidos: ${bad[0]}`].filter(Boolean).join(' · ');
@@ -38,8 +42,8 @@ async function render() {
         h('tbody', {}, ...all.map((t: TeamData, i) => h('tr', {},
           h('td', {}, String(i + 1)),
           h('td', {}, t.n), h('td', {}, MODE_LABEL[t.m]),
-          h('td', {}, h('strong', {}, String(t.p))), h('td', {}, `${t.s.length}/7`), h('td', {}, String(t.h)),
-          h('td', {}, t.s.length ? fmtTime(lastSolveSecs(t)) : '—'),
+          h('td', {}, h('strong', {}, String(t.p))), h('td', {}, `${t.k}/7`), h('td', {}, String(t.h)),
+          h('td', {}, t.k ? fmtTime(t.t) : '—'),
           h('td', {}, h('button', { 'aria-label': `Quitar ${t.n}`, onclick: async () => {
             if (await confirmDialog(`¿Quitar a «${t.n}» del marcador?`, 'Quitar')) { await scoreSync.remove(t.n, t.m); await render(); }
           } }, 'x'))))))));

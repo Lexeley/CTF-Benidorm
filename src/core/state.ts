@@ -41,3 +41,17 @@ export function totalPoints(s: GameState, list: Challenge[]): number {
 export function elapsedSeconds(s: GameState, now = Date.now()): number {
   return s.startedAt ? Math.max(0, Math.floor((now - s.startedAt) / 1000)) : 0;
 }
+
+/** Los retos del móvil se abren el día del segundo taller (hora del dispositivo). */
+export const MOVIL_DESDE = new Date(2026, 11, 16, 0, 0); // miércoles 16/12/2026, 00:00
+
+/** `?probar` en la URL lo abre antes en ese navegador (para el profe). Sistema de honor, como el marcador. */
+export function movilAbierto(now = Date.now()): boolean {
+  try {
+    if (new URLSearchParams(location.search).has('probar')) localStorage.setItem('ctf-laura:probar', '1');
+    if (localStorage.getItem('ctf-laura:probar')) return true;
+  } catch { /* sin storage */ }
+  return now >= MOVIL_DESDE.getTime();
+}
+
+export const fechaMovil = () => MOVIL_DESDE.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });

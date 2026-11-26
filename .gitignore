@@ -3,3 +3,4 @@ dist/
 .DS_Store
 # Soluciones: NUNCA al repo (puede ser público) ni al build
 solutions/
+PPT/

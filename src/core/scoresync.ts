@@ -1,4 +1,4 @@
-import { decodeTeam, encodeTeam, type TeamData } from './teamcode';
+import type { TeamData } from './teamcode';
 
 /**
  * Punto de enchufe del marcador. Hoy: LocalScoreSync (localStorage del dispositivo del profe,
@@ -16,23 +16,23 @@ const KEY = 'ctf-laura:marcador';
 const id = (t: Pick<TeamData, 'n' | 'm'>) => `${t.m}:${t.n.trim().toLowerCase()}`;
 
 export class LocalScoreSync implements ScoreSync {
-  private read(): Record<string, string> {
+  private read(): Record<string, TeamData> {
     try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
   }
-  private write(m: Record<string, string>) {
+  private write(m: Record<string, TeamData>) {
     try { localStorage.setItem(KEY, JSON.stringify(m)); } catch { /* sin storage */ }
   }
   async publish(team: TeamData) {
     const m = this.read();
-    const prev = m[id(team)] ? decodeTeam(m[id(team)]) : null;
+    const prev = m[id(team)];
     // Un mismo equipo puede mandar varios códigos: nos quedamos con el más avanzado.
-    if (!prev || team.s.length > prev.s.length || (team.s.length === prev.s.length && team.p >= prev.p)) {
-      m[id(team)] = encodeTeam(team);
+    if (!prev || team.k > prev.k || (team.k === prev.k && team.p >= prev.p)) {
+      m[id(team)] = team;
       this.write(m);
     }
   }
   async list() {
-    return Object.values(this.read()).flatMap((c) => { try { return [decodeTeam(c)]; } catch { return []; } });
+    return Object.values(this.read()).filter((t) => t && typeof t.n === 'string' && Number.isFinite(t.k));
   }
   async remove(name: string, mode: TeamData['m']) {
     const m = this.read(); delete m[id({ n: name, m: mode })]; this.write(m);

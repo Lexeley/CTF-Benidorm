@@ -37,8 +37,9 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   function teamData(): TeamData {
     return {
       n: s.team, m: mode, p: totalPoints(s, list),
-      s: list.filter((c) => c.id in s.solved).map((c) => [c.id, s.hints[c.id] ?? 0, s.solved[c.id]]),
+      k: list.filter((c) => c.id in s.solved).length,
       h: Object.values(s.hints).reduce((a, b) => a + b, 0),
+      t: Math.max(0, ...Object.values(s.solved)),
     };
   }
 
@@ -221,14 +222,13 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   function codeBlock() {
     const code = encodeTeam(teamData());
     const qr = qrcode(0, 'M');
-    qr.addData(code);
+    qr.addData(`${code} ${s.team}`);
     qr.make();
     const status = h('span', { role: 'status', class: 'muted' });
     return h('div', { class: 'card stack' },
       h('h2', {}, 'Código de equipo'),
-      h('p', { class: 'muted' }, 'Enseñad el QR al profe o copiad el código y pasádselo. Se actualiza cada vez que resolvéis un reto.'),
       h('img', { src: qr.createDataURL(5, 4), alt: 'Código QR del equipo', width: 260, height: 260, style: 'image-rendering: pixelated; background:#fff; border-radius:8px' }),
-      h('textarea', { readonly: true, 'aria-label': 'Código de equipo', rows: 3, onfocus: (e: Event) => (e.target as HTMLTextAreaElement).select() }, code),
+      h('p', { class: 'team-code', 'aria-label': 'Código de equipo' }, code),
       h('div', { class: 'row' },
         h('button', { onclick: async () => { status.textContent = (await copyText(code)) ? 'Copiado' : 'No se pudo copiar: selecciónalo y usa Ctrl+C'; } }, 'Copiar código'),
         status));
@@ -240,7 +240,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
       h('h1', {}, `Equipo: ${s.team}`),
       h('dl', { class: 'kv' },
         h('dt', {}, 'Puntos'), h('dd', {}, String(d.p)),
-        h('dt', {}, 'Resueltos'), h('dd', {}, `${d.s.length}/${list.length}`),
+        h('dt', {}, 'Resueltos'), h('dd', {}, `${d.k}/${list.length}`),
         h('dt', {}, 'Pistas usadas'), h('dd', {}, String(d.h)),
         h('dt', {}, 'Tiempo'), h('dd', {}, fmtTime(elapsedSeconds(s)))),
       h('p', {}, h('a', { class: 'btn primary', href: '#resumen' }, 'Resumen final')),

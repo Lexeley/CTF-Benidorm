@@ -70,11 +70,11 @@ Campos: `id` (clave en `answers.json`), `title`, `category` (etiqueta tipo CTF),
 
 Para cambiar una respuesta: edita el reto, actualiza `solutions/answers.local.json` (y `params` si afecta a un asset), y ejecuta `npm run gen` (o `npm run answers`) y luego `npm run check`. Para añadir un reto: crea el fichero, añádelo al `index.ts` del modo y añade su `id` a `answers.local.json`.
 
-Otros ajustes: duración del juego y coste de las pistas en `src/core/state.ts` (`GAME_SECONDS`, `HINT_COST`).
+Otros ajustes: duración del juego y coste de las pistas en `src/core/state.ts` (`GAME_SECONDS`, `HINT_COST`). Los retos del móvil se abren en la fecha `MOVIL_DESDE` (mismo fichero, reloj del dispositivo); para probarlos antes, abre `/movil/?probar` (queda abierto en ese navegador hasta borrar sus datos).
 
 ## Marcador y su limitación
 
-No hay servidor. Cada equipo tiene un **código de equipo** (pestaña «Equipo»): `LU1.` + base64url de `{nombre, modo, puntos, retos resueltos con pistas y segundos, pistas totales}` + checksum. Se puede copiar o mostrar como QR. En `/profe/` se pegan (varios a la vez) o se escanean con la cámara (`BarcodeDetector` nativo o `jsQR` como alternativa; la cámara exige https o localhost). El ranking ordena por puntos y, a igualdad, por quién resolvió antes su último reto. Se guarda solo en el navegador del profe.
+No hay servidor. Cada equipo tiene un **código de equipo** de 8 caracteres para copiar a mano (pestaña «Equipo», p. ej. `4F7K-2XQ9`): Crockford base32 con modo, retos resueltos, pistas, puntos y segundos del último reto + checksum de 13 bits (`src/core/teamcode.ts`). El nombre va aparte: en `/profe/` se escribe una línea por equipo, `CÓDIGO Nombre`. El QR lleva lo mismo y se escanea con la cámara (`BarcodeDetector` nativo o `jsQR`; la cámara exige https o localhost). El ranking ordena por puntos y, a igualdad, por quién resolvió antes su último reto. Se guarda solo en el navegador del profe.
 
 **Es un sistema de honor**: el checksum detecta errores al copiar, no trampas. Un alumno con conocimientos podría fabricar un código con más puntos. No se ha intentado blindar; para un taller de 45 minutos con el profe delante es suficiente.
 

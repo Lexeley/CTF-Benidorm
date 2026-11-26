@@ -215,3 +215,4 @@ tr.sel.ws td, tr.sel td { background: #1f6feb !important; color: #fff !important
 /* Logo */
 .logo { color: var(--accent); font: 700 .9rem/1.05 var(--mono); white-space: pre; margin: 1.2rem 0 .3rem; overflow-x: auto; border: 0; background: none; padding: 0; }
 .logo.small { font-size: .7rem; margin: .5rem 0 0; }
+.team-code { font: 700 2.2rem/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .12em; margin: 0; user-select: all; }
