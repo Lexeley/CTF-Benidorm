@@ -57,9 +57,9 @@ function withExif(img, p) {
       [piexif.ImageIFD.DateTime]: p.date,
     },
     Exif: { [piexif.ExifIFD.DateTimeOriginal]: p.date },
-    GPS: {
-      [piexif.GPSIFD.GPSLatitudeRef]: p.lat >= 0 ? 'N' : 'S', [piexif.GPSIFD.GPSLatitude]: gps.degToDmsRational(Math.abs(p.lat)),
-      [piexif.GPSIFD.GPSLongitudeRef]: p.lon >= 0 ? 'E' : 'W', [piexif.GPSIFD.GPSLongitude]: gps.degToDmsRational(Math.abs(p.lon)),
+    GPS: p.lat == null ? {} : {
+      [piexif.GPSIFD.GPSLatitudeRef]: (p.lat ?? 0) >= 0 ? 'N' : 'S', [piexif.GPSIFD.GPSLatitude]: gps.degToDmsRational(Math.abs(p.lat ?? 0)),
+      [piexif.GPSIFD.GPSLongitudeRef]: (p.lon ?? 0) >= 0 ? 'E' : 'W', [piexif.GPSIFD.GPSLongitude]: gps.degToDmsRational(Math.abs(p.lon ?? 0)),
     },
   });
   return Buffer.from(piexif.insert(exif, img.toString('binary')), 'binary');

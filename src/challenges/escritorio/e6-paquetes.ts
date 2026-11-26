@@ -16,8 +16,8 @@ export const e6: Challenge = {
     loadCapture().then((c) => box.replaceChildren(packetViewer(c)));
   },
   hints: [
-    'Escribe «http» en el filtro. Hay varios POST: uno no es un login y otro es un login fallido. Mira la respuesta del servidor a cada uno.',
-    'En los formularios los símbolos van codificados (%23, %21…). Pasa el valor de «clave» por «URL → texto» en el Decodificador del Kit.',
+    'Filtra por «http». No hay formulario de login: mira las cabeceras de las peticiones a la zona de socios y qué responde el servidor a cada una (401 = rechazada).',
+    'La cabecera «Authorization: Basic …» lleva usuario:contraseña en Base64. Decodifícala y quédate con lo que va después de los dos puntos.',
   ],
   answerHelp: 'La contraseña tal cual, ya decodificada.',
   lesson: 'En http todo viaja en claro: cualquiera en la misma red puede leer lo que envías. Con https (candado) el contenido va cifrado aunque la red sea abierta.',

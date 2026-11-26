@@ -87,21 +87,13 @@
   },
   "params": {
     "e1": {
-      "hashes": [
+      "entries": [
         [
-          "MD5",
-          "???"
-        ],
-        [
-          "SHA-1",
-          "???"
-        ],
-        [
-          "SHA-256",
+          "usuario",
+          "sal",
           "???"
         ]
-      ],
-      "crackable": "???"
+      ]
     },
     "e4": {
       "lat": 0,
@@ -111,13 +103,13 @@
     },
     "e5": {
       "plaintext": "???",
-      "shift": 0
+      "key": "???"
     },
     "e6": {
       "user": "???",
       "password": "???",
-      "host": "???",
-      "wrongPassword": "???"
+      "wrongPassword": "???",
+      "host": "???"
     },
     "m6": {
       "lat": 0,

@@ -83,3 +83,15 @@ export function toDms(dec: number, pos: string, neg: string): string {
   const d = Math.floor(a), mFloat = (a - d) * 60, m = Math.floor(mFloat), s = (mFloat - m) * 60;
   return `${d}° ${m}' ${s.toFixed(1)}" ${dec >= 0 ? pos : neg}`;
 }
+
+/** Vigenère sobre A-Z/a-z; la clave solo avanza con letras. decrypt=true para descifrar. */
+export function vigenere(text: string, key: string, decrypt = false): string {
+  const k = key.toLowerCase().replace(/[^a-z]/g, '');
+  if (!k) return text;
+  let i = 0;
+  return text.replace(/[a-z]/gi, (ch) => {
+    const base = ch <= 'Z' ? 65 : 97;
+    const shift = (k.charCodeAt(i++ % k.length) - 97) * (decrypt ? -1 : 1);
+    return String.fromCharCode(((ch.charCodeAt(0) - base + shift + 26) % 26) + base);
+  });
+}

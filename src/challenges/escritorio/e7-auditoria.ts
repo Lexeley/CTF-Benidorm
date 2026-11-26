@@ -2,39 +2,76 @@ import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
 import { pickList } from '../widgets';
 
-const item = (area: string, setting: string, value: string) =>
-  h('span', {}, h('span', { class: 'muted' }, `${area} / `), `${setting}: `, h('strong', {}, value));
+const OUT = String.raw`PS C:\Users\laura> Get-MpComputerStatus | Select AMServiceEnabled, RealTimeProtectionEnabled, AntivirusSignatureAge, QuickScanAge
+AMServiceEnabled          : True
+RealTimeProtectionEnabled : False
+AntivirusSignatureAge     : 0
+QuickScanAge              : 2
+
+PS C:\Users\laura> netsh advfirewall show allprofiles state
+Configuración Perfil de dominio:
+Estado                                ACTIVAR
+Configuración Perfil privado:
+Estado                                ACTIVAR
+Configuración Perfil público:
+Estado                                DESACTIVAR
+
+PS C:\Users\laura> Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System | Select EnableLUA, ConsentPromptBehaviorAdmin
+EnableLUA                  : 1
+ConsentPromptBehaviorAdmin : 0
+
+PS C:\Users\laura> Get-ItemProperty HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings | Select PauseUpdatesExpiryTime
+PauseUpdatesExpiryTime : 2026-12-30T00:00:00Z
+
+PS C:\Users\laura> Get-HotFix | Sort-Object InstalledOn | Select-Object -Last 1 HotFixID, InstalledOn
+HotFixID   InstalledOn
+--------   -----------
+KB5062553  14/07/2026
+
+PS C:\Users\laura> Get-LocalUser | Select Name, Enabled
+Name               Enabled
+----               -------
+Administrador      False
+Invitado           True
+laura              True
+
+PS C:\Users\laura> Get-LocalGroupMember Administradores | Select Name
+Name
+----
+PORTATIL-LAURA\Administrador
+
+PS C:\Users\laura> Get-Date
+sábado, 3 de octubre de 2026 19:02:11`;
 
 export const e7: Challenge = {
   id: 'e7',
-  title: 'Auditoría rápida',
-  difficulty: 'facil',
+  title: 'Auditoría por consola',
+  difficulty: 'medio',
   bonus: true,
   story: [
-    'Captura de «Seguridad de Windows» y de la configuración del portátil de Laura (simulada).',
-    'Marca TODOS los ajustes mal configurados. No te diremos cuántos hay.',
+    'Has abierto PowerShell en el portátil de Laura y has lanzado unos cuantos comandos. Esta es la salida.',
+    'Marca qué áreas están mal configuradas. No te decimos cuántas.',
   ],
   render(el, ctx) {
-    el.append(h('div', { class: 'card' },
-      h('h3', {}, 'Seguridad de Windows'),
-      pickList(ctx, 'Ajustes mal configurados', [
-        { key: 'A', node: item('Antivirus', 'Último análisis rápido', 'hace 2 días, 0 amenazas') },
-        { key: 'B', node: item('Antivirus', 'Protección en tiempo real', 'Desactivada por el usuario hace 21 días') },
-        { key: 'C', node: item('Firewall', 'Red privada', 'Activado') },
-        { key: 'D', node: item('Cuenta', 'Bloqueo de pantalla', 'A los 5 minutos de inactividad') },
-        { key: 'E', node: item('Firewall', 'Red pública', 'Desactivado') },
-        { key: 'F', node: item('Navegador', 'SmartScreen (webs y descargas peligrosas)', 'Activado') },
-        { key: 'G', node: item('Windows Update', 'Estado', 'En pausa, última instalación hace 64 días') },
-        { key: 'H', node: item('Copia de seguridad', 'OneDrive: Documentos', 'Sincronizado ayer') },
-        { key: 'I', node: item('Cuenta', 'Inicio de sesión', 'PIN de 6 dígitos + contraseña') },
-        { key: 'J', node: item('Control de cuentas (UAC)', 'Avisar cuando una app quiera hacer cambios', 'No notificarme nunca') },
-      ])));
+    el.append(h('pre', { 'aria-label': 'Salida de PowerShell' }, OUT),
+      pickList(ctx, 'Áreas mal configuradas', [
+        { key: 'A', node: h('span', {}, 'Servicio antivirus') },
+        { key: 'B', node: h('span', {}, 'Protección en tiempo real') },
+        { key: 'C', node: h('span', {}, 'Firmas del antivirus') },
+        { key: 'D', node: h('span', {}, 'Firewall: perfil privado') },
+        { key: 'E', node: h('span', {}, 'Firewall: perfil de dominio') },
+        { key: 'F', node: h('span', {}, 'Firewall: perfil público') },
+        { key: 'G', node: h('span', {}, 'Control de cuentas (UAC) para administradores') },
+        { key: 'H', node: h('span', {}, 'Actualizaciones de Windows') },
+        { key: 'I', node: h('span', {}, 'Cuentas locales') },
+        { key: 'J', node: h('span', {}, 'Laura usa una cuenta de administrador a diario') },
+      ]));
   },
   hints: [
-    'Piensa en las capas básicas: antivirus funcionando, firewall en todas las redes, sistema actualizado y que nada se instale sin preguntarte.',
-    'Hay 4. Uno de ellos no está en el antivirus ni en el firewall ni en las actualizaciones.',
+    'ConsentPromptBehaviorAdmin = 0 significa «elevar sin preguntar». Compara la fecha del último parche y la de pausa con la fecha de hoy.',
+    'Son 5. Mira bien qué cuentas están habilitadas y quién está realmente en el grupo Administradores.',
   ],
   answerHelp: 'Las letras en orden alfabético (ej.: ACF).',
-  lesson: 'Antivirus en tiempo real, firewall en todas las redes, actualizaciones al día y UAC avisando cierran la mayoría de puertas a los ataques automáticos. Si el UAC no avisa, cualquier programa puede tocar el sistema sin que te enteres.',
-  tip: 'Revisa hoy Seguridad de Windows: antivirus activo, firewall encendido, actualizaciones sin pausar y UAC en su nivel por defecto.',
+  lesson: 'La configuración real no siempre se ve en la pantalla bonita: con unos pocos comandos se audita un equipo. Aquí fallaban la protección en tiempo real, el firewall público, el UAC (cualquier programa obtiene permisos sin preguntar), las actualizaciones (casi 3 meses sin parches y pausadas) y la cuenta Invitado activa. Que Laura no sea administradora es correcto.',
+  tip: 'Revisa hoy Seguridad de Windows: antivirus activo, firewall encendido, actualizaciones sin pausar, UAC por defecto y cuenta Invitado desactivada.',
 };

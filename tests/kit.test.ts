@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { b64decode, b64encode, caesar, hashType, hexDecode, hexEncode, inspectUrl, toDms, urlDecode } from '../src/kit/codec';
+import { b64decode, b64encode, caesar, vigenere, hashType, hexDecode, hexEncode, inspectUrl, toDms, urlDecode } from '../src/kit/codec';
 
 describe('Kit', () => {
   it('base64 / hex con UTF-8', () => {
@@ -12,6 +12,10 @@ describe('Kit', () => {
     expect(urlDecode('Kira%2A2025+x')).toBe('Kira*2025 x');
     expect(caesar('Hola, Zz', 3)).toBe('Krod, Cc');
     expect(caesar(caesar('secreto', 7), -7)).toBe('secreto');
+  });
+  it('vigenère', () => {
+    expect(vigenere('attack at dawn', 'lemon')).toBe('lxfopv ef rnhr');
+    expect(vigenere(vigenere('Hola Mundo', 'kira'), 'kira', true)).toBe('Hola Mundo');
   });
   it('tipo de hash', () => {
     expect(hashType('e10adc3949ba59abbe56e057f20f883e')).toBe('MD5');

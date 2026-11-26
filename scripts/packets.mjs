@@ -52,15 +52,15 @@ function http(name, lines, body, respInfo) {
 const noise = () => { const s = pick(sites.slice(0, 7))[0]; if (rnd() < 0.5) dns(s); tlsSession(s, 2 + Math.floor(rnd() * 5)); };
 for (let i = 0; i < 9; i++) noise();
 dns(e6.host);
-http(e6.host, ['GET /login.php HTTP/1.1'], null, 'HTTP/1.1 200 OK (text/html)');
+http(e6.host, ['GET /socios/ HTTP/1.1'], null, 'HTTP/1.1 200 OK (text/html)');
 for (let i = 0; i < 3; i++) noise();
 http(e6.host, ['POST /api/stats HTTP/1.1'], 'evento=click&pagina=inicio', 'HTTP/1.1 204 No Content');
 for (let i = 0; i < 2; i++) noise();
-// Primer intento fallido (señuelo) y, tras un rato, el bueno.
-const form = (clave) => new URLSearchParams({ usuario: e6.user, clave, recordar: '1' }).toString();
-http(e6.host, ['POST /login.php HTTP/1.1'], form(e6.wrongPassword), 'HTTP/1.1 200 OK (text/html) · «Usuario o contraseña incorrectos»');
+// La zona de socios usa autenticación HTTP Basic: usuario:contraseña en Base64 (no es cifrado).
+const basic = (pw) => `Authorization: Basic ${Buffer.from(`${e6.user}:${pw}`).toString('base64')}`;
+http(e6.host, ['GET /socios/panel HTTP/1.1', basic(e6.wrongPassword)], null, 'HTTP/1.1 401 Unauthorized');
 for (let i = 0; i < 2; i++) noise();
-http(e6.host, ['POST /login.php HTTP/1.1'], form(e6.password), 'HTTP/1.1 302 Found  (Location: /panel.php)');
+http(e6.host, ['GET /socios/panel HTTP/1.1', basic(e6.password)], null, 'HTTP/1.1 200 OK (text/html)');
 for (let i = 0; i < 10; i++) noise();
 
 writeFileSync(`${root}src/generated/packets.json`, JSON.stringify({ name: 'wifi-cafeteria.pcap', packets: pk }) + '\n');

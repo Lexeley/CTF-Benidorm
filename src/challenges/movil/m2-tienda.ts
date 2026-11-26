@@ -1,44 +1,41 @@
 import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
 
-const card = (k: string, name: string, dev: string, stats: string, reviews: string[], perms: string, origin: string) =>
+const card = (k: string, name: string, dev: string, pkg: string, stats: string, cert: string, perms: string, origin: string) =>
   h('div', { class: 'card stack' },
     h('h3', {}, `[${k}] ${name}`),
     h('dl', { class: 'kv' },
       h('dt', {}, 'Desarrollador'), h('dd', {}, dev),
+      h('dt', {}, 'Paquete'), h('dd', {}, pkg),
       h('dt', {}, 'Datos'), h('dd', {}, stats),
+      h('dt', {}, 'Firma'), h('dd', {}, cert),
       h('dt', {}, 'Permisos'), h('dd', {}, perms),
-      h('dt', {}, 'Origen'), h('dd', {}, origin)),
-    h('details', {}, h('summary', {}, 'Reseñas'), h('ul', {}, ...reviews.map((r) => h('li', {}, r)))));
+      h('dt', {}, 'Origen'), h('dd', {}, origin)));
 
 export const m2: Challenge = {
   id: 'm2',
-  title: 'La app pirata',
+  title: 'La actualización',
   difficulty: 'medio',
   story: [
-    'Laura quiere gemas gratis en Brawl Stars. Un amigo le pasa un enlace a una «tienda alternativa». Compara estas 4 fichas (simuladas): una es malware.',
-    '¿Cómo se llama el desarrollador de la ficha maliciosa?',
+    'Un amigo le pasa a Laura un enlace: «actualización de Brawl Stars con la temporada nueva antes que nadie». Antes de instalar nada, Laura compara lo que ya tiene en el móvil con lo que se va a instalar (fichas simuladas).',
+    '¿Cuál es el nombre de paquete del malware?',
   ],
   render(el) {
     el.append(h('div', { class: 'grid' },
-      card('A', 'Brawl Stars', 'Supercell', '100 M+ descargas · 4,2 (24 M reseñas)',
-        ['3/5 Demasiadas compras dentro del juego.', '5/5 Lo juego todos los días con mis amigos.', '2/5 La última actualización me va lenta.'],
-        'Internet, Vibración, Notificaciones', 'Google Play'),
-      card('B', 'Brawl Stars Gems Generator 2026', 'Supercell Games Studio', '100 K+ descargas · 4,8 (3.100 reseñas)',
-        ['5/5 funciona 100% me dio 5000 gemas', '5/5 FUNCIONA 100% gracias!!', '5/5 funciona 100 % recomendado', '1/5 me pide verificar con mi número y no da nada'],
-        'SMS, Contactos, Servicio de accesibilidad, Administrador del dispositivo, Instalar apps desconocidas', 'Tienda alternativa (archivo .apk)'),
-      card('C', 'Candy Crush Saga', 'King', '1.000 M+ descargas · 4,6 (36 M reseñas)',
-        ['4/5 Adictivo, pero los niveles difíciles piden pagar.', '5/5 Clásico.'],
-        'Internet, Vibración', 'Google Play'),
-      card('D', 'Brawl Stars Tips & Guía', 'GamerGuides ES', '500 K+ descargas · 4,1 (8.000 reseñas)',
-        ['4/5 Buenas guías de brawlers, muchos anuncios.', '2/5 Algunas guías están desactualizadas.'],
-        'Internet', 'Google Play')));
+      card('A', 'Brawl Stars', 'Supercell', 'com.supercell.brawlstars', 'Instalada · v58.1 · Google Play',
+        'Supercell Oy (SHA-256 7A:3F:…:C2)', 'Internet, Vibración, Notificaciones', 'Google Play'),
+      card('B', 'Brawl Stars', 'Supercell', 'com.supercell.brawlstars.update', 'v59.0 · 48 MB',
+        'Supercell Games Dev (SHA-256 1E:90:…:4B)', 'Internet, Vibración, Notificaciones, Servicio de accesibilidad, Instalar apps desconocidas', 'Enlace en Telegram (.apk)'),
+      card('C', 'Brawl Stars', 'Supercell', 'com.supercell.brawlstars', 'v59.0 · actualización disponible',
+        'Supercell Oy (SHA-256 7A:3F:…:C2)', 'Internet, Vibración, Notificaciones', 'Google Play'),
+      card('D', 'Brawl Stats', 'BrawlTools', 'com.brawltools.stats', '1 M+ descargas · 4,4',
+        'BrawlTools S.L. (SHA-256 55:01:…:9E)', 'Internet', 'Google Play')));
   },
   hints: [
-    'Que el nombre del desarrollador se parezca al oficial no lo hace oficial. Compara también permisos y de dónde se instala.',
-    'Ningún juego necesita Accesibilidad ni ser Administrador del dispositivo. Y las reseñas repetidas son compradas.',
+    'El nombre y el desarrollador que se muestran los puede poner cualquiera. Lo que identifica a una app de verdad es el nombre de paquete y la firma del desarrollador.',
+    'Una actualización legítima tiene el MISMO paquete y la MISMA firma que la app instalada. ¿Cuál no cumple ninguna de las dos?',
   ],
-  answerHelp: 'El nombre del desarrollador tal cual aparece.',
-  lesson: 'Los «generadores de gemas» y apps MOD fuera de la tienda oficial son de los cebos de malware más comunes entre adolescentes. Señales: desarrollador que imita al real, nota casi perfecta con reseñas copiadas y permisos de control total.',
-  tip: 'Deja desactivado «Instalar apps desconocidas» y descarga solo de la tienda oficial.',
+  answerHelp: 'El nombre de paquete completo (ej.: com.ejemplo.app).',
+  lesson: 'Android solo deja actualizar una app si la nueva versión está firmada con la misma clave. Por eso el malware usa otro nombre de paquete y se instala como app aparte con el mismo icono y nombre. Las «actualizaciones antes que nadie» fuera de la tienda son un cebo clásico.',
+  tip: 'Deja desactivado «Instalar apps desconocidas» y actualiza solo desde la tienda oficial.',
 };

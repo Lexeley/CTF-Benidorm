@@ -9,7 +9,9 @@ Web 100 % estática (sin backend, sin base de datos, sin cookies, sin analytics,
 | `/movil/` | «El móvil de Laura»: 7 retos (permisos, tienda falsa, smishing, wifi gemela, robo, ubicación, rastreador) |
 | `/profe/` | Marcador: pegar/escanear códigos de equipo y ranking proyectable |
 
-Cada modo incluye la pestaña **Kit** con todas las herramientas (Base64/Hex/URL, César/ROT, hashes MD5/SHA-1/SHA-256, buscador de hash con wordlist de 5.000 contraseñas, visor EXIF con mapa esquemático y lugares cercanos, inspector de URL y visor de paquetes). Funciona sin internet una vez cargada la página: los trozos pesados se precargan en segundo plano.
+Cada modo incluye la pestaña **Kit** con todas las herramientas (Base64/Hex/URL/invertir, César/ROT, Vigenère, hashes MD5/SHA-1/SHA-256, buscador de hash con sal opcional contra una wordlist de 5.000 contraseñas, visor EXIF con mapa esquemático y tabla de coordenadas de lugares conocidos, inspector de URL y visor de paquetes).
+
+El nivel es alto a propósito (retos encadenados, señuelos, deducción): en 35 minutos lo normal es que ningún equipo lo resuelva todo. Si quieres bajarlo, sube `GAME_SECONDS` o abarata las pistas (`HINT_COST`). Funciona sin internet una vez cargada la página: los trozos pesados se precargan en segundo plano.
 
 ## Arrancar
 
@@ -40,8 +42,8 @@ Todo sale de scripts reproducibles en `scripts/`:
 | Script | Genera |
 |---|---|
 | `wordlist.mjs` | `src/generated/wordlist.txt`: 5.000 contraseñas débiles por combinación (no usa filtraciones reales) |
-| `puzzles.mjs` | `puzzles.json`: los hashes MD5/SHA-1/SHA-256 del reto e1 (comprueba que las débiles están en la wordlist y la frase larga no) y el texto cifrado del e5 (César → invertir → hex → Base64) |
-| `packets.mjs` | `packets.json`: captura simulada con PRNG de semilla fija, IPs de documentación (RFC 5737) y un POST http con credenciales |
+| `puzzles.mjs` | `puzzles.json`: `claves.bak` del reto e1 (SHA-256 con sal; comprueba que las débiles están en la wordlist y la frase larga no) y el texto cifrado del e5 (Vigenère → invertir → hex → Base64) |
+| `packets.mjs` | `packets.json`: captura simulada con PRNG de semilla fija, IPs de documentación (RFC 5737), señuelos y dos peticiones con HTTP Basic Auth (una fallida) |
 | `photos.mjs` | `foto-portatil.jpg` y `foto-movil.jpg`: dibujo procedural + EXIF (cámara inventada, fecha, GPS) |
 | `answers.mjs` | `answers.json`: sales nuevas y hashes de las respuestas aceptadas |
 

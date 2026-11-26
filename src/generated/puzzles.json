@@ -1,10 +1,4 @@
 {
-  "e1Hashes": [
-    "3718e00ac45cec21633e2211af9b77cd0a193698",
-    "e10adc3949ba59abbe56e057f20f883e",
-    "06c92e21ea946abed654e7e3caa3beef480b28222bf6a7e3954a102036dcd9e6",
-    "3fc0a7acf087f549ac2b266baf94b8b1",
-    "76e7f603b258e707c864252d9b1231eb97efe77c4c573b486de4ebd164f13802"
-  ],
-  "e5Cipher": "N2EgNzYgNzMgNzYgNjkgNzQgNzAgN2EgMjAgNzMgNzAgNzQgMjAgNmMgNjIgNzggMjAgN2EgNjggNzQgMjAgNmMgNzMgNjggNjMgMjAgNjggNmUgNzkgNjggNzMgMjAgNmMgN2EgNjggNzkgNmQgMjAgNjggNzUgNjI="
+  "e1Shadow": "# exportado de GestorClaves v1.2\n# formato: usuario:sal:sha256(sal + contraseña)\npapa:a1:41ff0f49313ee29a37e0802a8b03e63d25150605457ccb4d8e6cf00739bcbec9\nmama:5d:886f0cac5a8dc70d395d8009cbfc0dda2ef78f01a20856abd2d32e95156478c3\nlaura:7c1e:1ed40e991705ad30875e5726469eef0ec396847a0c49d4f92d690a3e9699b53a\nvega::b460b1982188f11d175f60ed670027e1afdd16558919fe47023ecd38329e0b7f",
+  "e5Cipher": "NmIgNzIgNjkgNmQgN2EgMjAgNjkgNjQgMjAgNjEgNmYgMjAgNjUgNmQgNjkgNzYgNjMgMjAgNzIgNzQgMjAgNmYgNzUgNjggMjAgNjkgNjIgNjEgNjUgNzEgNjYgNjkgNzUgNjkgMjAgNmYgNjkgNzUgNjkgNzg="
 }

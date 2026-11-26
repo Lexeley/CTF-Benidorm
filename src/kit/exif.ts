@@ -12,7 +12,10 @@ const PLACES: [string, number, number][] = [
   ['Mezquita-Catedral (Córdoba)', 37.8789, -4.7794], ['Acueducto (Segovia)', 40.9481, -4.1184],
   ['Catedral de Santiago de Compostela', 42.8806, -8.5446], ['Torre de Hércules (A Coruña)', 43.3859, -8.4065],
   ['Ciudad de las Artes y las Ciencias (Valencia)', 39.4546, -0.3505], ['Balcón del Mediterráneo (Benidorm)', 38.5346, -0.1310],
-  ['Giralda (Sevilla)', 37.3862, -5.9926], ['Basílica del Pilar (Zaragoza)', 41.6567, -0.8786],
+  ['Giralda (Sevilla)', 37.3862, -5.9926], ['Rosaleda del Parque del Oeste (Madrid)', 40.4288, -3.7205],
+  ['Jardines de Sabatini (Madrid)', 40.4207, -3.7145], ['Teleférico, estación Rosales (Madrid)', 40.4262, -3.7186],
+  ['Cuartel del Conde Duque (Madrid)', 40.4274, -3.7105], ['Ermita de San Antonio de la Florida (Madrid)', 40.4255, -3.7262],
+  ['Catedral de la Almudena (Madrid)', 40.4157, -3.7144], ['Plaza de Callao (Madrid)', 40.4199, -3.7058], ['Basílica del Pilar (Zaragoza)', 41.6567, -0.8786],
 ];
 
 // Contorno muy simplificado de la península (lon, lat).

@@ -1,6 +1,6 @@
 import { md5 } from 'js-md5';
 import { h } from '../ui/dom';
-import { b64decode, b64encode, caesar, hashType, hexDecode, hexEncode, inspectUrl, urlDecode, urlEncode } from './codec';
+import { b64decode, b64encode, caesar, hashType, vigenere, hexDecode, hexEncode, inspectUrl, urlDecode, urlEncode } from './codec';
 import { exifViewer } from './exif';
 import { loadCapture, packetViewer } from './packets';
 
@@ -56,6 +56,18 @@ function caesarTool() {
   ];
 }
 
+function vigenereTool() {
+  const input = textarea({ placeholder: 'Texto cifrado' });
+  const key = h('input', { autocomplete: 'off', spellcheck: 'false', autocapitalize: 'off', placeholder: 'clave (solo letras)' }) as HTMLInputElement;
+  const output = textarea({ readonly: 'true' });
+  const run = () => { output.value = vigenere(input.value, key.value, true); };
+  input.addEventListener('input', run); key.addEventListener('input', run);
+  return [
+    h('p', { class: 'muted' }, 'Como César, pero cada letra se desplaza según una letra de la clave (a=0, b=1…), que se repite.'),
+    ...field('Texto', input), ...field('Clave', key), ...field('Descifrado', output),
+  ];
+}
+
 function hashTool() {
   const input = h('input', { autocomplete: 'off', spellcheck: 'false', autocapitalize: 'off', placeholder: 'Texto' }) as HTMLInputElement;
   const out = h('dl', { class: 'kv' });
@@ -70,6 +82,7 @@ function hashTool() {
 let wordlist: string[] | null = null;
 function crackTool() {
   const input = h('input', { autocomplete: 'off', spellcheck: 'false', placeholder: 'p. ej. e10adc3949ba59abbe56e057f20f883e' }) as HTMLInputElement;
+  const salt = h('input', { autocomplete: 'off', spellcheck: 'false', placeholder: 'vacío si no hay sal' }) as HTMLInputElement;
   const out = h('p', { class: 'feedback', role: 'status' });
   const btn = h('button', { class: 'primary', onclick: async () => {
     const target = input.value.trim().toLowerCase();
@@ -77,14 +90,15 @@ function crackTool() {
     if (!type) { out.className = 'feedback err'; out.textContent = 'Eso no parece un hash MD5 (32), SHA-1 (40) o SHA-256 (64 caracteres hex).'; return; }
     out.className = 'feedback'; out.textContent = `Buscando (${type})…`;
     wordlist ??= (await import('../generated/wordlist.txt?raw')).default.split('\n').filter(Boolean);
+    const pre = salt.value;
     for (const w of wordlist) {
-      if ((await hashOf(type, w)) === target) { out.className = 'feedback ok'; out.textContent = `Encontrada: ${type}("${w}") = ${target.slice(0, 12)}…`; return; }
+      if ((await hashOf(type, pre + w)) === target) { out.className = 'feedback ok'; out.textContent = `Encontrada: ${type}("${pre}${w}") → contraseña: ${w}`; return; }
     }
     out.className = 'feedback err'; out.textContent = `No está entre las ${wordlist.length} contraseñas de la lista. ¡Eso es bueno para su dueño!`;
   } }, 'Buscar en la wordlist');
   return [
     h('p', { class: 'muted' }, 'Compara el hash con los de ~5.000 contraseñas débiles. Así atacan los «crackeadores»: no «deshacen» el hash, prueban contraseñas comunes.'),
-    ...field('Hash', input), btn, out,
+    ...field('Hash', input), ...field('Sal (se antepone a cada contraseña: sal + contraseña)', salt), btn, out,
   ];
 }
 
@@ -122,6 +136,7 @@ function packetTool() {
 const TOOLS: [string, string, () => Node[]][] = [
   ['decoder', 'decodificador base64 / hex / url', decoderTool],
   ['caesar', 'césar / rot', caesarTool],
+  ['vigenere', 'vigenère', vigenereTool],
   ['hash', 'calculadora de hash', hashTool],
   ['crack', 'buscador de hash (wordlist)', crackTool],
   ['exif', 'visor exif', () => []],
