@@ -79,9 +79,9 @@
       ]
     },
     "m7": {
-      "mode": "text",
+      "mode": "compact",
       "accept": [
-        "???"
+        "????"
       ]
     }
   },

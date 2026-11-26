@@ -61,7 +61,7 @@ Cada reto es un fichero de datos tipado (`Challenge` en `src/core/types.ts`):
 
 ```
 src/challenges/escritorio/e1-hashes.ts … e7-auditoria.ts
-src/challenges/movil/m1-permisos.ts … m7-rastreador.ts
+src/challenges/movil/m1-permisos.ts … m7-manchas.ts
 src/challenges/widgets.ts   ← piezas comunes: marcar letras, clasificar F/L, ordenar con ↑↓
 src/ui/sim.ts               ← marcos realistas: ventanas, pantallas de móvil, enlaces con «copiar / analizar en el kit»
 ```
