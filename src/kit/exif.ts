@@ -12,6 +12,8 @@ const PLACES: [string, number, number][] = [
   ['Mezquita-Catedral (Córdoba)', 37.8789, -4.7794], ['Acueducto (Segovia)', 40.9481, -4.1184],
   ['Catedral de Santiago de Compostela', 42.8806, -8.5446], ['Torre de Hércules (A Coruña)', 43.3859, -8.4065],
   ['Ciudad de las Artes y las Ciencias (Valencia)', 39.4546, -0.3505], ['Balcón del Mediterráneo (Benidorm)', 38.5346, -0.1310],
+  ['Torre de les Caletes (Benidorm)', 38.5249, -0.0963], ['Mirador de la Creu (Benidorm)', 38.5317, -0.0959],
+  ['Cala del Tío Ximo (Benidorm)', 38.5282, -0.1039], ['Far de l\'Albir (l\'Alfàs del Pi)', 38.5633, -0.0497],
   ['Giralda (Sevilla)', 37.3862, -5.9926], ['Rosaleda del Parque del Oeste (Madrid)', 40.4288, -3.7205],
   ['Jardines de Sabatini (Madrid)', 40.4207, -3.7145], ['Teleférico, estación Rosales (Madrid)', 40.4262, -3.7186],
   ['Cuartel del Conde Duque (Madrid)', 40.4274, -3.7105], ['Ermita de San Antonio de la Florida (Madrid)', 40.4255, -3.7262],

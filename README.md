@@ -44,7 +44,7 @@ Todo sale de scripts reproducibles en `scripts/`:
 | `wordlist.mjs` | `src/generated/wordlist.txt`: 5.000 contraseñas débiles por combinación (no usa filtraciones reales) |
 | `puzzles.mjs` | `puzzles.json`: `claves.bak` del reto e1 (SHA-256 con sal; comprueba que las débiles están en la wordlist y la frase larga no) y el texto cifrado del e5 (Vigenère → invertir → hex → Base64) |
 | `packets.mjs` | `packets.json`: captura simulada con PRNG de semilla fija, IPs de documentación (RFC 5737), señuelos y dos peticiones con HTTP Basic Auth (una fallida) |
-| `photos.mjs` | `foto-portatil.jpg` y `foto-movil.jpg`: dibujo procedural + EXIF (cámara inventada, fecha, GPS) |
+| `photos.mjs` | `foto-portatil.jpg` (foto real `scripts/assets/atardecer.jpg`, sin su EXIF) y `foto-movil.jpg` (dibujo procedural) + EXIF inventado (cámara, fecha, GPS) |
 | `answers.mjs` | `answers.json`: sales nuevas y hashes de las respuestas aceptadas |
 
 ```bash
