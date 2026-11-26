@@ -8,7 +8,7 @@ import {
 import { encodeTeam, type TeamData } from '../core/teamcode';
 import { scoreSync } from '../core/scoresync';
 import { confirmDialog, copyText, h } from './dom';
-import { renderKit } from '../kit';
+import { prefetchKit, renderKit } from '../kit';
 
 const answers = answersJson as Record<string, AnswerEntry>;
 
@@ -21,6 +21,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   const app = document.getElementById('app')!;
   let s: GameState = loadState(mode);
   const save = () => saveState(mode, s);
+  const samples = list.flatMap((c) => c.attachments ?? []).filter((a) => /\.jpe?g$/i.test(a.filename));
 
   const timerEl = h('span', { class: 'timer', 'aria-label': 'Tiempo restante' }, '35:00');
   const pointsEl = h('span', {}, '0 pts');
@@ -71,7 +72,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
     if (section === 'reto') {
       const c = list.find((x) => x.id === arg);
       node = c ? challengeView(c) : listView();
-    } else if (section === 'kit') node = renderKit();
+    } else if (section === 'kit') node = renderKit(samples);
     else if (section === 'equipo') node = teamView();
     else if (section === 'resumen') node = summaryView();
     else node = listView();
@@ -267,4 +268,5 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   }
 
   route();
+  prefetchKit();
 }

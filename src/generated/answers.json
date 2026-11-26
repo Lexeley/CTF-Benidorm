@@ -1,9 +1,101 @@
 {
-  "demo": {
+  "e1": {
     "mode": "text",
-    "salt": "5e4cbf6619deef270a03c5c7",
+    "salt": "292f0f912205ea014eb299f0",
     "hashes": [
-      "d6173c5889c850c44ba9c2203e9cb1be791284e933af8992dab424021cf81243"
+      "2bb090ffa580e06067a5b1b4d17854be1b78324e7ecfe4f7cd415a4f5d7f4db2"
+    ]
+  },
+  "e2": {
+    "mode": "text",
+    "salt": "6420b2d98bd795e3edeb177a",
+    "hashes": [
+      "78dec0ee3a4a840bc6cf77a81abf923d929c6a8e5bc4d43e4c7b4453f685fbc5"
+    ]
+  },
+  "e3": {
+    "mode": "compact",
+    "salt": "40a1becfe5c5cd064d543339",
+    "hashes": [
+      "0cb5bd14bd826bc26b77413bc7b001db0c85879877e5690ec90bebccfd7fd694"
+    ]
+  },
+  "e4": {
+    "mode": "text",
+    "salt": "16540d9aeb72e736714d21d9",
+    "hashes": [
+      "f9fb59f08c0bd3a064fffda9a42bb6ec6ea335c1715a32182eef6515a3f73a98",
+      "461a51b81ca6a508dec5b281ec73c1ce8c25411ff8433cc791b3c896af326bc6"
+    ]
+  },
+  "e5": {
+    "mode": "text",
+    "salt": "1784821bec4cd3eeb5b98872",
+    "hashes": [
+      "4051d608f05a68dd87c8705de397b7cb6515665c3fb297a9eac5b42525657edb"
+    ]
+  },
+  "e6": {
+    "mode": "text",
+    "salt": "4568f513d5b8e91e57d2fac5",
+    "hashes": [
+      "59d6f5db62d1ff6fea46c5d3990a30f9d4fb0ebb4114ce9ac0582e3e53c52ed5"
+    ]
+  },
+  "e7": {
+    "mode": "compact",
+    "salt": "7d526c385b1a1bde589ce1d5",
+    "hashes": [
+      "0aaa1e9487105d1597f4aa81c73a7921ace8aec7324c87d75d4c81e9c543ec1b"
+    ]
+  },
+  "m1": {
+    "mode": "compact",
+    "salt": "bc8a16e1c53065e84e155441",
+    "hashes": [
+      "7f707f757b03d06817bb44b6f6e316d72086b9fd563bf37284eb75eb5bbf552b"
+    ]
+  },
+  "m2": {
+    "mode": "compact",
+    "salt": "1ef177a2f145cd77b7ec6699",
+    "hashes": [
+      "524d0c591583d022eae75d0eda590895a56bce43d5114486538ec692b2876363"
+    ]
+  },
+  "m3": {
+    "mode": "compact",
+    "salt": "f881da4dab93e0ed7a3d28cc",
+    "hashes": [
+      "8e895bbf2c99cc5ad2d5efcc3ee40f3bb622344d3da5fde11d8988d2ad7f877b"
+    ]
+  },
+  "m4": {
+    "mode": "compact",
+    "salt": "f3e3d5405a174e88a25c9511",
+    "hashes": [
+      "75381df29077247c6777d62e9ec1fce1fb73cc4601d0f3ea3059c22b95343ead"
+    ]
+  },
+  "m5": {
+    "mode": "compact",
+    "salt": "c8c98e0e0d4059a84e46b99f",
+    "hashes": [
+      "f74a8526a769a3b23f41224ed39ab6f271ad5f7b0ea936005fe7a81b0441c556"
+    ]
+  },
+  "m6": {
+    "mode": "text",
+    "salt": "da9fab2402b5d2844ac9daee",
+    "hashes": [
+      "f75b985eea5c1698697db82de6128bfa9f9725b4f9cfac7c56ab98bbd86d26a2"
+    ]
+  },
+  "m7": {
+    "mode": "text",
+    "salt": "59620ed042599239a398d07c",
+    "hashes": [
+      "840991ae281c9799b33d44cc198c86daa013397bdf18d3c54a6d99da23d41575"
     ]
   }
 }

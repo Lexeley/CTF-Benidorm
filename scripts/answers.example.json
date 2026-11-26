@@ -1,0 +1,119 @@
+{
+  "answers": {
+    "e1": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "e2": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "e3": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "e4": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "e5": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "e6": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "e7": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m1": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m2": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m3": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m4": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m5": {
+      "mode": "compact",
+      "accept": [
+        "???"
+      ]
+    },
+    "m6": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    },
+    "m7": {
+      "mode": "text",
+      "accept": [
+        "???"
+      ]
+    }
+  },
+  "params": {
+    "e1": {
+      "passwords": [
+        "???",
+        "???",
+        "???"
+      ]
+    },
+    "e4": {
+      "lat": 0,
+      "lon": 0,
+      "date": "2026:01:01 12:00:00",
+      "description": "???"
+    },
+    "e5": {
+      "plaintext": "???",
+      "shift": 0
+    },
+    "e6": {
+      "user": "???",
+      "password": "???",
+      "host": "???"
+    },
+    "m6": {
+      "lat": 0,
+      "lon": 0,
+      "date": "2026:01:01 12:00:00",
+      "description": "???"
+    }
+  },
+  "_comentario": "Copia este fichero a solutions/answers.local.json y rellena los ??? (ver README y SOLUCIONES.md). solutions/ está en .gitignore."
+}
