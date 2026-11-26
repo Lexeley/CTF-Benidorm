@@ -1,5 +1,6 @@
 import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
+import { avatar, phone } from '../../ui/sim';
 
 const COLS = ['SMS', 'Contactos', 'Ubicación', 'Accesibilidad', 'Sobre otras apps', 'Acceso a notificaciones'];
 // [app, origen, descripción, permisos (1 = concedido)]
@@ -17,17 +18,18 @@ export const m1: Challenge = {
   id: 'm1',
   title: 'Permisos sospechosos',
   difficulty: 'medio',
+  category: 'Android',
   story: [
     'Estos son los permisos sensibles que Laura ha concedido. Varias apps tienen permisos peligrosos y aun así son legítimas.',
     'Una es un troyano bancario que ha superado los filtros de la tienda. ¿Cuál?',
   ],
   render(el) {
-    el.append(h('div', { class: 'table-wrap' }, h('table', {},
-      h('thead', {}, h('tr', {}, h('th', { scope: 'col' }, 'App'), h('th', { scope: 'col' }, 'Para qué sirve'), ...COLS.map((c) => h('th', { scope: 'col' }, c)))),
-      h('tbody', {}, ...apps.map(([name, origin, desc, perms]) => h('tr', {},
-        h('td', {}, name, h('br'), h('span', { class: 'muted' }, origin)),
-        h('td', { style: 'white-space:normal;min-width:12rem' }, desc),
-        ...perms.map((p) => h('td', {}, p ? 'sí' : '-'))))))));
+    el.append(phone('17:03', 'Ajustes > Aplicaciones', ...apps.map(([name, origin, desc, perms]) =>
+      h('details', { style: 'border-bottom:1px solid #222;padding:.35rem 0' },
+        h('summary', {}, h('span', { style: 'display:inline-flex;gap:.6rem;align-items:center;vertical-align:middle' }, avatar(name, 34),
+          h('span', {}, h('b', {}, name), h('br'), h('span', { class: 'muted', style: 'font-size:.78rem' }, `${desc} · ${origin}`)))),
+        ...COLS.map((c, i) => h('div', { class: 'set-item' }, h('span', {}, c), perms[i] ? h('span', { class: 'on' }, 'Permitido') : h('span', { class: 'off' }, 'No permitido')))))));
+    el.append(h('p', { class: 'muted' }, 'Toca cada app para ver sus permisos.'));
   },
   hints: [
     'Para cada permiso peligroso, pregúntate si la función de la app lo justifica. Un gestor de contraseñas necesita ver la pantalla para rellenar formularios; una pulsera necesita leer tus notificaciones.',

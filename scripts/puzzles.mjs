@@ -11,7 +11,7 @@ for (const [u, , p] of e1.entries) {
   if (words.has(p) !== should) { console.error(`✗ ${u}: "${p}" ${should ? 'no está' : 'está'} en la wordlist`); process.exit(1); }
 }
 const sha256 = (s) => createHash('sha256').update(s, 'utf8').digest('hex');
-const shadow = ['# exportado de GestorClaves v1.2', '# formato: usuario:sal:sha256(sal + contraseña)', ...e1.entries.map(([u, salt, p]) => `${u}:${salt}:${sha256(salt + p)}`)];
+const shadow = ['cuenta,usuario,sal,sha256_sal_mas_clave', ...e1.entries.map(([u, salt, p]) => `${{ papa: 'Portátil (papá)', mama: 'Portátil (mamá)', laura: 'Portátil (Laura)', vega: 'Tablet (Vega)' }[u] ?? u},${u},${salt},${sha256(salt + p)}`)];
 // Orden de cifrado: Vigenère → invertir → hex → Base64. El alumno lo deshace al revés.
 const reversed = [...vigenere(e5.plaintext, e5.key)].reverse().join('');
 writeFileSync(`${root}src/generated/puzzles.json`, JSON.stringify({ e1Shadow: shadow.join('\n'), e5Cipher: b64encode(hexEncode(reversed)) }, null, 2) + '\n');

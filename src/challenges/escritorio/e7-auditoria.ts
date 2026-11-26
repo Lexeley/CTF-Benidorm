@@ -1,6 +1,7 @@
 import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
 import { pickList } from '../widgets';
+import { win } from '../../ui/sim';
 
 const OUT = String.raw`PS C:\Users\laura> Get-MpComputerStatus | Select AMServiceEnabled, RealTimeProtectionEnabled, AntivirusSignatureAge, QuickScanAge
 AMServiceEnabled          : True
@@ -47,13 +48,14 @@ export const e7: Challenge = {
   id: 'e7',
   title: 'Auditoría por consola',
   difficulty: 'medio',
+  category: 'Sistemas',
   bonus: true,
   story: [
     'Has abierto PowerShell en el portátil de Laura y has lanzado unos cuantos comandos. Esta es la salida.',
     'Marca qué áreas están mal configuradas. No te decimos cuántas.',
   ],
   render(el, ctx) {
-    el.append(h('pre', { 'aria-label': 'Salida de PowerShell' }, OUT),
+    el.append(win('Windows PowerShell', 'ps', h('pre', {}, `Windows PowerShell\nCopyright (C) Microsoft Corporation. Todos los derechos reservados.\n\n${OUT}\n\nPS C:\\Users\\laura> _`)),
       pickList(ctx, 'Áreas mal configuradas', [
         { key: 'A', node: h('span', {}, 'Servicio antivirus') },
         { key: 'B', node: h('span', {}, 'Protección en tiempo real') },

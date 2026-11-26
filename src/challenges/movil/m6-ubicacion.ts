@@ -58,6 +58,7 @@ export const m6: Challenge = {
   id: 'm6',
   title: 'Ubicación compartida',
   difficulty: 'dificil',
+  category: 'OSINT',
   story: [
     'Laura subió esta foto a sus historias. Además comparte su ubicación aproximada en el Snap Map: un amigo ha ido guardando capturas en distintos momentos (simuladas). Cada círculo dice «está por aquí, a menos de 800 m».',
     '¿En qué barrio está su instituto?',

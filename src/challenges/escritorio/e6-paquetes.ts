@@ -6,6 +6,7 @@ export const e6: Challenge = {
   id: 'e6',
   title: 'El wifi de la cafetería',
   difficulty: 'dificil',
+  category: 'Redes',
   story: [
     'Laura se conectó al wifi abierto de una cafetería y entró en la web de socios de su club. Alguien en la misma red capturó el tráfico.',
     'Casi todo va cifrado (TLS), pero la web del club no usa https. Encuentra la contraseña correcta de Laura.',

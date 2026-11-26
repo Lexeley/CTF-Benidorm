@@ -1,10 +1,11 @@
 import './styles.css';
 import { h } from './ui/dom';
+import { logo } from './ui/logo';
 
 const app = document.getElementById('app')!;
 app.append(
   h('div', { class: 'home-hero' },
-    h('pre', { 'aria-hidden': 'true' }, '  _      _   _   _ ___   _   \n | |    /_\\ | | | | _ \\ /_\\  \n | |__ / _ \\| |_| |   // _ \\ \n |____/_/ \\_\\\\___/|_|_\\/_/ \\_\\'),
+    logo(),
 
     h('h1', {}, 'CTF: los dispositivos de Laura'),
     h('p', { class: 'muted' }, 'Laura tiene 17 años y es un personaje inventado. Investiga sus dispositivos, encuentra los fallos de seguridad y aprende a no cometerlos tú.')),

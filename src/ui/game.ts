@@ -8,6 +8,7 @@ import {
 import { encodeTeam, type TeamData } from '../core/teamcode';
 import { scoreSync } from '../core/scoresync';
 import { confirmDialog, copyText, fmtTime, h } from './dom';
+import { logo } from './logo';
 import { prefetchKit, renderKit } from '../kit';
 
 const answers = answersJson as Record<string, AnswerEntry>;
@@ -97,10 +98,19 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
       location.hash = 'retos';
       route();
     } },
+      logo(true),
       h('h1', {}, title),
-      h('p', {}, mode === 'escritorio'
-        ? 'Laura (17 años, personaje inventado) os ha dejado su portátil para que encontréis todo lo que un atacante podría aprovechar.'
-        : 'Laura (17 años, personaje inventado) os ha dejado su móvil para que encontréis todo lo que un atacante podría aprovechar.'),
+      h('pre', { class: 'card', style: 'color:var(--fg)' }, [
+        'EXPEDIENTE ............ LAURA M. G.',
+        'Edad .................. 17 (1º Bachillerato, IES Río Claro, Madrid)',
+        `Dispositivo ........... ${mode === 'escritorio' ? 'portátil Windows 11 «PORTATIL-LAURA»' : 'móvil Android (Samsung Galaxy A54)'}`,
+        'Le gusta .............. el Atleti, su perra Kira, Instagram',
+        'Encargo ............... Laura os ha dejado su ' + (mode === 'escritorio' ? 'portátil' : 'móvil') + ' para una auditoría.',
+        '                        Encontrad todo lo que podría usar un atacante.',
+        '',
+        'Laura y su entorno son ficticios. Las marcas reales aparecen como ejemplo;',
+        'los mensajes, webs y capturas son simulaciones.',
+      ].join('\n')),
       h('p', { class: 'muted' }, `Tenéis ${GAME_SECONDS / 60} minutos y ${list.length} retos. El tiempo empieza al pulsar «Empezar».`),
       h('label', { for: 'team' }, 'Nombre del equipo'),
       input,
@@ -120,6 +130,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
         return h('a', { class: 'btn card chal', href: `#reto/${c.id}` },
           h('span', { class: 'name' }, `${i + 1}. ${c.title}`),
           h('span', { class: 'badges' },
+            h('span', { class: 'badge' }, c.category),
             h('span', { class: `badge ${c.difficulty}` }, `${DIFF_LABEL[c.difficulty]} · ${POINTS[c.difficulty]}`),
             c.bonus && h('span', { class: 'badge' }, 'Bonus'),
             solved && h('span', { class: 'badge solved' }, `resuelto +${earned(c, s.hints[c.id] ?? 0)}`),
@@ -192,6 +203,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
       h('p', {}, h('a', { href: '#retos' }, '< volver')),
       h('h1', {}, c.title),
       h('div', { class: 'badges' },
+        h('span', { class: 'badge' }, c.category),
         h('span', { class: `badge ${c.difficulty}` }, DIFF_LABEL[c.difficulty]),
         h('span', { class: 'badge' }, solved ? `resuelto: ${earned(c, used)} pts` : `${earned(c, used)} pts`),
         c.bonus && h('span', { class: 'badge' }, 'Bonus')),

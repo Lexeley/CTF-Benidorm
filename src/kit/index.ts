@@ -144,16 +144,31 @@ const TOOLS: [string, string, () => Node[]][] = [
   ['packets', 'visor de paquetes', packetTool],
 ];
 
+// Para abrir una herramienta ya rellena desde un reto (botones "analizar en el kit").
+let pending: { tool: string; value: string } | null = null;
+export function openInKit(tool: string, value: string): void {
+  pending = { tool, value };
+  if (location.hash === '#kit') dispatchEvent(new HashChangeEvent('hashchange')); else location.hash = 'kit';
+}
+
 export function renderKit(samples: { label: string; url: string }[] = []): HTMLElement {
+  const want = pending;
+  pending = null;
   return h('section', { class: 'stack' },
     h('h1', {}, 'Kit de herramientas'),
     h('p', { class: 'muted' }, 'Todo funciona dentro de esta web, sin internet y sin enviar nada fuera.'),
     ...TOOLS.map(([id, title, make]) => {
       const body = h('div', { class: 'stack' });
       const d = h('details', { class: 'card', id: `tool-${id}` }, h('summary', {}, h('strong', {}, title)), body);
-      d.addEventListener('toggle', () => {
-        if (d.open && !body.childElementCount) body.append(...(id === 'exif' ? [exifViewer(samples)] : make()));
-      });
+      const build = () => { if (!body.childElementCount) body.append(...(id === 'exif' ? [exifViewer(samples)] : make())); };
+      d.addEventListener('toggle', () => { if (d.open) build(); });
+      if (want?.tool === id) {
+        build();
+        d.open = true;
+        const field = body.querySelector('input:not([type=file]), textarea') as HTMLInputElement | null;
+        if (field) { field.value = want.value; field.dispatchEvent(new Event('input')); }
+        setTimeout(() => { d.scrollIntoView({ block: 'start' }); field?.focus(); }, 50);
+      }
       return d;
     }));
 }

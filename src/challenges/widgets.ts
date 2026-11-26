@@ -10,8 +10,10 @@ export function pickList(ctx: RenderCtx, legend: string, items: { key: string; n
   const inputs = items.map((it) => h('input', { type: single ? 'radio' : 'checkbox', name, value: it.key, id: `${name}-${it.key}` }) as HTMLInputElement);
   return h('fieldset', { class: 'stack', style: 'border:0;padding:0;margin:0' },
     h('legend', { class: 'sr-only' }, legend),
+    // La etiqueta solo envuelve la letra: así el contenido (enlaces, texto) se puede seleccionar y copiar.
     ...items.map((it, i) => h('div', { class: 'pick' }, inputs[i],
-      h('label', { for: inputs[i].id, style: 'font-weight:400;margin:0;flex:1' }, h('strong', { class: 'mono' }, `${it.key}. `), it.node))),
+      h('label', { for: inputs[i].id, class: 'pick-key' }, `${it.key}.`),
+      h('div', { style: 'flex:1;min-width:0' }, it.node))),
     h('button', { type: 'button', onclick: () => ctx.fill(inputs.filter((x) => x.checked).map((x) => x.value).join('')) }, 'Usar lo marcado como respuesta'));
 }
 
@@ -57,5 +59,5 @@ export function orderList(ctx: RenderCtx, items: { key: string; text: string }[]
     h('button', { type: 'button', onclick: () => ctx.fill(order.map((x) => x.key).join('')) }, 'Usar este orden como respuesta'));
 }
 
-/** Texto con aspecto de enlace pero NO clicable (nunca se navega a nada). */
-export const fakeLink = (url: string) => h('span', { class: 'fake-link', title: 'Enlace simulado (no se abre)' }, url);
+/** Enlace simulado: no navega; se puede copiar o mandar al inspector del kit. */
+export { link as fakeLink } from '../ui/sim';

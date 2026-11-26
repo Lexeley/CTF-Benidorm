@@ -63,9 +63,10 @@ Cada reto es un fichero de datos tipado (`Challenge` en `src/core/types.ts`):
 src/challenges/escritorio/e1-hashes.ts … e7-auditoria.ts
 src/challenges/movil/m1-permisos.ts … m7-rastreador.ts
 src/challenges/widgets.ts   ← piezas comunes: marcar letras, clasificar F/L, ordenar con ↑↓
+src/ui/sim.ts               ← marcos realistas: ventanas, pantallas de móvil, enlaces con «copiar / analizar en el kit»
 ```
 
-Campos: `id` (clave en `answers.json`), `title`, `story`, `difficulty` (`facil` 100 / `medio` 200 / `dificil` 300), `hints` (2; cada una resta el 25 % del valor), `answerHelp`, `attachments`, `render` (parte interactiva; `ctx.fill()` vuelca una selección al campo de respuesta), `lesson` (se muestra al resolver) y `tip` (alimenta los «3 ajustes que haría hoy mismo» del resumen final).
+Campos: `id` (clave en `answers.json`), `title`, `category` (etiqueta tipo CTF), `story`, `difficulty` (`facil` 100 / `medio` 200 / `dificil` 300), `hints` (2; cada una resta el 25 % del valor), `answerHelp`, `attachments`, `render` (parte interactiva; `ctx.fill()` vuelca una selección al campo de respuesta), `lesson` (se muestra al resolver) y `tip` (alimenta los «3 ajustes que haría hoy mismo» del resumen final).
 
 Para cambiar una respuesta: edita el reto, actualiza `solutions/answers.local.json` (y `params` si afecta a un asset), y ejecuta `npm run gen` (o `npm run answers`) y luego `npm run check`. Para añadir un reto: crea el fichero, añádelo al `index.ts` del modo y añade su `id` a `answers.local.json`.
 

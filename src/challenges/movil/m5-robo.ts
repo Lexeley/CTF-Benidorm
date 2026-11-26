@@ -5,6 +5,7 @@ export const m5: Challenge = {
   id: 'm5',
   title: '¡Me han robado el móvil!',
   difficulty: 'dificil',
+  category: 'Respuesta a incidentes',
   story: [
     'A Laura le han quitado el móvil en el metro. Está nerviosa y su amiga le presta el suyo.',
     'Ordena del primero al último SOLO los pasos que sí debería hacer. Dos de ellos son una mala idea: déjalos al final y no los pongas en la respuesta.',
@@ -17,8 +18,8 @@ export const m5: Challenge = {
       { key: 'D', text: 'Desde otro dispositivo, localizar el móvil y bloquearlo en remoto con un mensaje de contacto en pantalla.' },
       { key: 'E', text: 'Poner la denuncia en comisaría aportando el IMEI (está en la caja o la factura).' },
       { key: 'F', text: 'Llamar a la operadora para bloquear la SIM y pedir que bloqueen el IMEI.' },
-      { key: 'G', text: 'Entrar en el enlace del SMS «Tu iPhone ha sido localizado, inicia sesión para verlo en el mapa».' },
-      { key: 'H', text: 'Quitar el móvil robado de su cuenta de Apple/Google para que no quede asociado a ella.' },
+      { key: 'G', text: 'Entrar en el enlace del SMS que le llega al día siguiente: «Encontrar mi dispositivo: tu móvil ha sido localizado. Inicia sesión para verlo en el mapa».' },
+      { key: 'H', text: 'Quitar el móvil robado de su cuenta de Google para que no quede asociado a ella.' },
     ]));
   },
   hints: [

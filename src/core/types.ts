@@ -16,6 +16,7 @@ export interface Challenge {
   title: string;
   story: string[];            // párrafos
   difficulty: Difficulty;
+  category: string;           // etiqueta tipo CTF (OSINT, Crypto, Forense…)
   bonus?: boolean;
   hints: [string, string];
   answerHelp: string;         // formato esperado de la respuesta

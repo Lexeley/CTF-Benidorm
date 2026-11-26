@@ -1,5 +1,6 @@
 import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
+import { phone } from '../../ui/sim';
 
 const table = (caption: string, head: string[], rows: string[][]) =>
   h('div', { class: 'table-wrap' }, h('table', {},
@@ -11,6 +12,7 @@ export const m7: Challenge = {
   id: 'm7',
   title: 'Rastreador desconocido',
   difficulty: 'dificil',
+  category: 'Lógica',
   story: [
     'Por la noche, el móvil de Laura muestra: «Se ha detectado un rastreador desconocido que se mueve contigo». Alguien le metió una etiqueta localizadora en la mochila.',
     'Cómo funcionan los avisos: el móvil SOLO avisa cuando el rastreador viaja contigo y su dueño NO está cerca (a menos de unos 10 m). El primer aviso llega entre 15 y 60 minutos después de separarse del dueño, y luego se repite cada 45-60 minutos mientras sigáis separados.',
@@ -25,14 +27,14 @@ export const m7: Challenge = {
         ['19:00 – 20:30', 'Academia de inglés'],
         ['20:45 – …', 'Casa'],
       ]),
-      table('Historial de avisos del móvil', ['Hora', 'Aviso'], [
-        ['16:52', 'Rastreador desconocido cerca (parada de bus del polideportivo)'],
-        ['17:40', 'Sigue contigo (casa)'],
-        ['18:30', 'Sigue contigo (casa)'],
-        ['19:00 – 20:30', '— sin avisos —'],
-        ['21:05', 'Sigue contigo (casa)'],
-        ['21:55', 'Sigue contigo (casa)'],
-      ]),
+      phone('22:31', 'Notificaciones',
+        ...[['16:52', 'Rastreador desconocido cerca de ti', 'Un dispositivo desconocido se mueve contigo. Visto por primera vez cerca de: parada de bus del polideportivo.'],
+          ['17:40', 'El rastreador sigue contigo', 'Visto cerca de: casa.'],
+          ['18:30', 'El rastreador sigue contigo', 'Visto cerca de: casa.'],
+          ['21:05', 'El rastreador sigue contigo', 'Visto cerca de: casa.'],
+          ['21:55', 'El rastreador sigue contigo', 'Visto cerca de: casa. Toca para reproducir un sonido y encontrarlo.']]
+          .map(([t, title, body]) => h('div', { class: 'notif' }, h('div', { class: 'app' }, h('span', {}, 'Alertas de seguridad'), h('span', {}, t)), h('b', {}, title), h('br'), body)),
+        h('p', { class: 'muted', style: 'font-size:.8rem;text-align:center' }, 'No hay más notificaciones de hoy')),
       table('Qué hicieron sus conocidos esa tarde (según ellos y sus stories)', ['Persona', 'Horario'], [
         ['Marcos', '15:00 – 16:40 polideportivo (entrena en la pista de al lado) · 18:00 – 21:00 trabaja en una pizzería'],
         ['Sara', '16:00 – 18:00 biblioteca · 19:00 – 20:30 academia de inglés (misma clase que Laura)'],
