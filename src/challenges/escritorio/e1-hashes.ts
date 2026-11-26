@@ -7,21 +7,19 @@ export const e1: Challenge = {
   title: 'Contraseñas viejas',
   difficulty: 'facil',
   story: [
-    'En el escritorio del portátil hay un archivo «contraseñas_viejas.txt». No guarda las contraseñas, sino sus hashes MD5: la «huella» de cada una.',
-    'Un hash no se puede «deshacer», pero si la contraseña es débil basta con calcular el hash de muchas contraseñas comunes y comparar.',
-    '¿Cuál es la contraseña del tercer hash?',
+    'En el escritorio de Laura hay un archivo hashes.txt que exportó de un gestor antiguo. Son hashes de las contraseñas de la familia, sin indicar el algoritmo.',
+    'Dos de ellos son SHA-256: uno es de su madre y otro de Laura. Su madre usa frases largas. ¿Cuál es la contraseña de Laura?',
   ],
   render(el) {
     el.append(
-      h('pre', { 'aria-label': 'Contenido de contraseñas_viejas.txt' },
-        `# contraseñas_viejas.txt\n${puzzles.e1Hashes.map((x, i) => `${i + 1}: ${x}`).join('\n')}`),
-      h('p', {}, h('a', { class: 'btn', href: '#kit' }, '🧰 Ir al Kit → Buscador de hash')));
+      h('pre', { 'aria-label': 'Contenido de hashes.txt' }, `$ cat hashes.txt\n${puzzles.e1Hashes.join('\n')}`),
+      h('p', {}, 'Herramientas: ', h('a', { href: '#kit' }, 'kit > buscador de hash')));
   },
   hints: [
-    'Copia el tercer hash y pégalo en el Kit, herramienta «Buscador de hash (wordlist)».',
-    'Los 32 caracteres hex son un MD5. El primero es la contraseña más usada del mundo; el tercero es un deporte seguido de un año.',
+    'El algoritmo se deduce por la longitud: 32 caracteres hex = MD5, 40 = SHA-1, 64 = SHA-256.',
+    'Prueba los dos hashes de 64 caracteres en el buscador. Uno no aparecerá en la wordlist: esa es la frase larga de su madre.',
   ],
-  answerHelp: 'La contraseña en texto, tal cual (sin comillas).',
-  lesson: 'Las contraseñas cortas o comunes se encuentran en segundos comparando hashes con listas de contraseñas filtradas. Que esté «cifrada» no la salva si es débil.',
-  tip: 'Usa un gestor de contraseñas y una frase larga y única para cada cuenta importante.',
+  answerHelp: 'La contraseña en texto, tal cual.',
+  lesson: 'Da igual el algoritmo (MD5, SHA-1 o SHA-256): si la contraseña es común, aparece en una wordlist. La frase larga de su madre no la encuentra nadie con este método.',
+  tip: 'Usa un gestor de contraseñas y frases largas y únicas para cada cuenta.',
 };

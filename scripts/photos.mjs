@@ -52,8 +52,8 @@ function withExif(img, p) {
   const gps = piexif.GPSHelper;
   const exif = piexif.dump({
     '0th': {
-      [piexif.ImageIFD.Make]: 'Nimbus', [piexif.ImageIFD.Model]: 'Nimbus S7',
-      [piexif.ImageIFD.Software]: 'NimbusCam 4.2', [piexif.ImageIFD.ImageDescription]: p.description,
+      [piexif.ImageIFD.Make]: 'samsung', [piexif.ImageIFD.Model]: 'Galaxy A54 5G',
+      [piexif.ImageIFD.Software]: 'A546BXXS9CXK1', [piexif.ImageIFD.ImageDescription]: p.description,
       [piexif.ImageIFD.DateTime]: p.date,
     },
     Exif: { [piexif.ExifIFD.DateTimeOriginal]: p.date },

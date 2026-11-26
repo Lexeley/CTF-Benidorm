@@ -7,7 +7,7 @@ export const e4: Challenge = {
   title: 'La foto del atardecer',
   difficulty: 'medio',
   story: [
-    'Lucía mandó esta foto al grupo de clase como archivo («para que no pierda calidad»).',
+    'Laura mandó esta foto por WhatsApp al grupo de clase como documento («para que no pierda calidad»).',
     'Las cámaras de los móviles guardan dentro de la foto datos EXIF: modelo, fecha… y a veces la ubicación GPS exacta.',
     '¿En qué lugar conocido se hizo la foto?',
   ],
@@ -15,11 +15,11 @@ export const e4: Challenge = {
   render(el) {
     el.append(
       h('img', { src: foto, alt: 'Atardecer con la silueta de un templo de columnas reflejado en el agua', width: 640, height: 480, style: 'border-radius:10px' }),
-      h('p', {}, h('a', { class: 'btn', href: '#kit' }, '🧰 Ir al Kit → Visor EXIF')));
+      h('p', {}, 'Herramientas: ', h('a', { href: '#kit' }, 'kit > visor EXIF')));
   },
   hints: [
     'Abre la foto en el Visor EXIF del Kit (botón «atardecer.jpg» o sube el archivo descargado). Busca la sección GPS.',
-    'El visor te da los lugares conocidos más cercanos a las coordenadas: el primero está a muy pocos metros.',
+    'Compara las coordenadas con la tabla de lugares del visor. Ojo: hay dos lugares muy cerca; el bueno está a menos de 50 m.',
   ],
   answerHelp: 'El nombre del lugar (ej.: Puerta del Sol).',
   lesson: 'Una foto enviada como archivo puede revelar dónde estabas al metro. Muchas redes borran el EXIF al publicar, pero las apps de mensajería al «enviar como documento» o el correo no.',

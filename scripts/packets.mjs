@@ -11,9 +11,9 @@ const hex = (n) => Array.from({ length: n }, () => Math.floor(rnd() * 256).toStr
 
 const ME = '192.168.1.34', DNS = '192.168.1.1';
 const sites = [
-  ['cdn.streamnube.es', '203.0.113.21'], ['api.chatamigos.app', '203.0.113.55'], ['correo.mailnube.es', '198.51.100.12'],
-  ['aula.iesrioclaro.es', '198.51.100.40'], ['img.fotored.app', '203.0.113.90'], ['tienda.ropaurbana.es', '198.51.100.77'],
-  ['juegos.pixelarena.app', '203.0.113.130'], [e6.host, '198.51.100.200'],
+  ['www.youtube.com', '203.0.113.21'], ['web.whatsapp.com', '203.0.113.55'], ['mail.google.com', '198.51.100.12'],
+  ['aula.iesrioclaro.es', '198.51.100.40'], ['www.instagram.com', '203.0.113.90'], ['www.zara.com', '198.51.100.77'],
+  ['open.spotify.com', '203.0.113.130'], [e6.host, '198.51.100.200'],
 ];
 const ipOf = Object.fromEntries(sites);
 const pk = []; let t = 0;
@@ -56,8 +56,11 @@ http(e6.host, ['GET /login.php HTTP/1.1'], null, 'HTTP/1.1 200 OK (text/html)');
 for (let i = 0; i < 3; i++) noise();
 http(e6.host, ['POST /api/stats HTTP/1.1'], 'evento=click&pagina=inicio', 'HTTP/1.1 204 No Content');
 for (let i = 0; i < 2; i++) noise();
-const creds = new URLSearchParams({ usuario: e6.user, clave: e6.password, recordar: '1' }).toString();
-http(e6.host, ['POST /login.php HTTP/1.1'], creds, 'HTTP/1.1 302 Found  (Location: /panel.php)');
+// Primer intento fallido (señuelo) y, tras un rato, el bueno.
+const form = (clave) => new URLSearchParams({ usuario: e6.user, clave, recordar: '1' }).toString();
+http(e6.host, ['POST /login.php HTTP/1.1'], form(e6.wrongPassword), 'HTTP/1.1 200 OK (text/html) · «Usuario o contraseña incorrectos»');
+for (let i = 0; i < 2; i++) noise();
+http(e6.host, ['POST /login.php HTTP/1.1'], form(e6.password), 'HTTP/1.1 302 Found  (Location: /panel.php)');
 for (let i = 0; i < 10; i++) noise();
 
 writeFileSync(`${root}src/generated/packets.json`, JSON.stringify({ name: 'wifi-cafeteria.pcap', packets: pk }) + '\n');

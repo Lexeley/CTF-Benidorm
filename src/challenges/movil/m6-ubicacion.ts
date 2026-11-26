@@ -23,7 +23,7 @@ const s = (tag: string, a: Record<string, string | number>, text?: string) => {
 
 function map(): SVGSVGElement {
   const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'img',
-    'aria-label': 'Mapa esquemático de barrios con cuadrícula de coordenadas y un círculo de ubicación aproximada de Lucía entre Chamberí y Salamanca' }) as SVGSVGElement;
+    'aria-label': 'Mapa esquemático de barrios con cuadrícula de coordenadas y un círculo de ubicación aproximada de Laura entre Chamberí y Salamanca' }) as SVGSVGElement;
   svg.append(s('rect', { width: W, height: H, fill: '#0d1620' }));
   const fills = ['#22384f', '#2b4a36', '#4a3a24', '#3d2b45', '#24443f', '#47302e'];
   ZONES.forEach(([n, a, b, c, d], i) => {
@@ -41,7 +41,7 @@ function map(): SVGSVGElement {
   svg.append(s('text', { x: W / 2, y: H - 4, fill: '#a9b7c6', 'font-size': 9, 'text-anchor': 'middle' }, 'longitud →   (latitud a la izquierda)'));
   // Ubicación aproximada que comparte la app (círculo grande a caballo entre dos barrios)
   svg.append(s('circle', { cx: x(-3.690), cy: y(40.436), r: 34, fill: '#ffc261', 'fill-opacity': 0.25, stroke: '#ffc261', 'stroke-dasharray': '4 3' }),
-    s('text', { x: x(-3.690), y: y(40.436) - 38, fill: '#ffc261', 'font-size': 10, 'text-anchor': 'middle' }, 'Lucía · aprox.'));
+    s('text', { x: x(-3.690), y: y(40.436) - 38, fill: '#ffc261', 'font-size': 10, 'text-anchor': 'middle' }, 'Laura (aprox.)'));
   return svg;
 }
 
@@ -50,7 +50,7 @@ export const m6: Challenge = {
   title: 'Ubicación compartida',
   difficulty: 'medio',
   story: [
-    'Lucía publicó esta foto: «Primer día de curso 📚». Además tiene activada la ubicación aproximada en MapaAmigos (app inventada), que ese día a las 08:10 la mostraba así.',
+    'Laura publicó esta foto: «Primer día de curso». Además comparte su ubicación en el Snap Map de Snapchat, que ese día a las 08:10 la mostraba así (captura simulada).',
     'Con la foto y el mapa, deduce en qué barrio está su instituto.',
   ],
   attachments: [{ label: 'Descargar primer-dia.jpg', url: foto, filename: 'primer-dia.jpg' }],
@@ -58,10 +58,10 @@ export const m6: Challenge = {
     el.append(
       h('img', { src: foto, alt: 'Calle con edificios de varias alturas y una carretera', width: 640, height: 480, style: 'border-radius:10px' }),
       h('div', { class: 'card stack' },
-        h('h3', {}, '🗺 MapaAmigos · lunes 15 sep · 08:10'),
+        h('h3', {}, 'Snap Map - lunes 15 sep - 08:10'),
         map(),
         h('p', { class: 'muted' }, 'Mapa esquemático: barrios simplificados como rectángulos.')),
-      h('p', {}, h('a', { class: 'btn', href: '#kit' }, '🧰 Ir al Kit → Visor EXIF')));
+      h('p', {}, 'Herramientas: ', h('a', { href: '#kit' }, 'kit > visor EXIF')));
   },
   hints: [
     'El círculo de la app cae entre dos barrios. La foto se hizo 6 minutos antes: mira su GPS en el Visor EXIF.',

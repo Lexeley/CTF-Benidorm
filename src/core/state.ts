@@ -12,7 +12,7 @@ export interface GameState {
   wrong: Record<string, number>;       // intentos fallidos (para el enfriamiento)
 }
 
-const key = (mode: Mode) => `ctf-lucia:${mode}`;
+const key = (mode: Mode) => `ctf-laura:${mode}`;
 const empty = (): GameState => ({ v: 1, team: '', startedAt: null, hints: {}, solved: {}, wrong: {} });
 
 export function loadState(mode: Mode): GameState {

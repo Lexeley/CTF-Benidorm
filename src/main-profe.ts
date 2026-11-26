@@ -5,7 +5,7 @@ import { confirmDialog, fmtTime, h } from './ui/dom';
 
 document.body.classList.add('wide');
 const app = document.getElementById('app')!;
-const MODE_LABEL = { escritorio: '💻 Portátil', movil: '📱 Móvil' } as const;
+const MODE_LABEL = { escritorio: 'portátil', movil: 'móvil' } as const;
 
 const paste = h('textarea', { id: 'codes', rows: 4, spellcheck: 'false', placeholder: 'LU1.xxxxx.yyy (puedes pegar varios a la vez)' }) as HTMLTextAreaElement;
 const msg = h('p', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
@@ -13,7 +13,7 @@ const filter = h('select', { id: 'filter' },
   h('option', { value: '' }, 'Todos'), h('option', { value: 'escritorio' }, 'Portátil'), h('option', { value: 'movil' }, 'Móvil')) as HTMLSelectElement;
 const board = h('section', { class: 'card stack', id: 'board', style: 'background:var(--bg)' });
 const video = h('video', { playsinline: true, muted: true, style: 'max-width:420px;width:100%;border-radius:10px;display:none' }) as HTMLVideoElement;
-const scanBtn = h('button', {}, '📷 Escanear QR');
+const scanBtn = h('button', {}, 'Escanear QR');
 
 async function addCodes(text: string) {
   // Los códigos no tienen espacios: cada palabra pegada es un código (o basura que se informa).
@@ -23,26 +23,26 @@ async function addCodes(text: string) {
     try { const t = decodeTeam(c); await scoreSync.publish(t); ok.push(t.n); } catch (e) { bad.push((e as Error).message); }
   }
   msg.className = `feedback ${bad.length ? 'err' : 'ok'}`;
-  msg.textContent = [ok.length && `✓ Añadido: ${ok.join(', ')}`, bad.length && `✗ ${bad.length} código(s) no válidos: ${bad[0]}`].filter(Boolean).join(' · ');
+  msg.textContent = [ok.length && `[ok] Añadido: ${ok.join(', ')}`, bad.length && `[error] ${bad.length} código(s) no válidos: ${bad[0]}`].filter(Boolean).join(' · ');
   await render();
 }
 
 async function render() {
   const all = rankTeams(await scoreSync.list()).filter((t) => !filter.value || t.m === filter.value);
   board.replaceChildren(
-    h('h2', {}, `🏆 Clasificación (${all.length} equipos)`),
+    h('h2', {}, `Clasificación (${all.length} equipos)`),
     all.length === 0
       ? h('p', { class: 'muted' }, 'Aún no hay equipos. Pega o escanea sus códigos.')
       : h('div', { class: 'table-wrap' }, h('table', { class: 'ranking' },
         h('thead', {}, h('tr', {}, ...['#', 'Equipo', 'Modo', 'Puntos', 'Retos', 'Pistas', 'Último reto', ''].map((x) => h('th', { scope: 'col' }, x)))),
         h('tbody', {}, ...all.map((t: TeamData, i) => h('tr', {},
-          h('td', {}, i < 3 ? ['🥇', '🥈', '🥉'][i] : String(i + 1)),
+          h('td', {}, String(i + 1)),
           h('td', {}, t.n), h('td', {}, MODE_LABEL[t.m]),
           h('td', {}, h('strong', {}, String(t.p))), h('td', {}, `${t.s.length}/7`), h('td', {}, String(t.h)),
           h('td', {}, t.s.length ? fmtTime(lastSolveSecs(t)) : '—'),
           h('td', {}, h('button', { 'aria-label': `Quitar ${t.n}`, onclick: async () => {
             if (await confirmDialog(`¿Quitar a «${t.n}» del marcador?`, 'Quitar')) { await scoreSync.remove(t.n, t.m); await render(); }
-          } }, '✕'))))))));
+          } }, 'x'))))))));
 }
 
 // ---------- Escáner QR: BarcodeDetector nativo si existe, si no jsQR (Chrome de Windows no lo trae) ----------
@@ -60,7 +60,7 @@ async function startScan() {
   video.srcObject = stream;
   video.style.display = 'block';
   await video.play();
-  scanBtn.textContent = '⏹ Parar escáner';
+  scanBtn.textContent = 'Parar escáner';
   type Detector = { detect(v: HTMLVideoElement): Promise<{ rawValue: string }[]> };
   const BD = (window as unknown as { BarcodeDetector?: new (o: object) => Detector }).BarcodeDetector;
   const native = BD ? new BD({ formats: ['qr_code'] }) : null;
@@ -87,7 +87,7 @@ function stopScan() {
   stream?.getTracks().forEach((t) => t.stop());
   stream = null;
   video.style.display = 'none';
-  scanBtn.textContent = '📷 Escanear QR';
+  scanBtn.textContent = 'Escanear QR';
 }
 scanBtn.addEventListener('click', startScan);
 
@@ -95,21 +95,21 @@ filter.addEventListener('change', render);
 addEventListener('storage', render); // si el marcador está abierto en otra pestaña
 
 app.append(
-  h('header', { class: 'topbar' }, h('a', { class: 'title', href: '../' }, 'CTF Lucía · Profe'), h('span', { class: 'muted' }, 'Sistema de honor')),
+  h('header', { class: 'topbar' }, h('a', { class: 'title', href: '../' }, 'CTF Laura · Profe'), h('span', { class: 'muted' }, 'Sistema de honor')),
   h('h1', {}, 'Marcador'),
   h('div', { class: 'card stack' },
     h('label', { for: 'codes' }, 'Códigos de equipo'),
     paste,
     h('div', { class: 'row' },
-      h('button', { class: 'primary', onclick: () => { void addCodes(paste.value); paste.value = ''; } }, '➕ Añadir'),
+      h('button', { class: 'primary', onclick: () => { void addCodes(paste.value); paste.value = ''; } }, 'Añadir'),
       scanBtn),
     video, msg),
   h('div', { class: 'row', style: 'margin:1rem 0' },
     h('label', { for: 'filter', style: 'margin:0' }, 'Mostrar'), filter,
-    h('button', { onclick: () => board.requestFullscreen?.().catch(() => {}) }, '⛶ Pantalla completa'),
+    h('button', { onclick: () => board.requestFullscreen?.().catch(() => {}) }, 'Pantalla completa'),
     h('button', { class: 'danger', onclick: async () => {
       if (await confirmDialog('¿Vaciar el marcador de este dispositivo? No se puede deshacer.', 'Vaciar')) { await scoreSync.clear(); await render(); }
-    } }, '🗑 Vaciar')),
+    } }, 'Vaciar')),
   board,
   h('details', { class: 'card', style: 'margin-top:1rem' },
     h('summary', {}, 'Cómo funciona'),

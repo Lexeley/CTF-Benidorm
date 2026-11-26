@@ -12,7 +12,7 @@ export interface ScoreSync {
   clear(): Promise<void>;
 }
 
-const KEY = 'ctf-lucia:marcador';
+const KEY = 'ctf-laura:marcador';
 const id = (t: Pick<TeamData, 'n' | 'm'>) => `${t.m}:${t.n.trim().toLowerCase()}`;
 
 export class LocalScoreSync implements ScoreSync {

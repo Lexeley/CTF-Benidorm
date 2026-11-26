@@ -30,12 +30,13 @@ function decoderTool() {
   return [
     ...field('Entrada', input),
     h('div', { class: 'row' },
-      op('Base64 → texto', b64decode), op('Texto → Base64', b64encode),
-      op('Hex → texto', hexDecode), op('Texto → hex', hexEncode),
-      op('URL → texto', urlDecode), op('Texto → URL', urlEncode)),
+      op('base64 -> texto', b64decode), op('texto -> base64', b64encode),
+      op('hex -> texto', hexDecode), op('texto -> hex', hexEncode),
+      op('url -> texto', urlDecode), op('texto -> url', urlEncode),
+      op('invertir', (t) => [...t].reverse().join(''))),
     err,
     ...field('Resultado', output),
-    h('button', { onclick: () => { input.value = output.value; output.value = ''; input.focus(); } }, '⤴ Usar el resultado como entrada'),
+    h('button', { onclick: () => { input.value = output.value; output.value = ''; input.focus(); } }, 'Usar el resultado como entrada'),
   ];
 }
 
@@ -50,7 +51,7 @@ function caesarTool() {
     ...field('Texto', input),
     ...field('Desplazamiento (cuántas letras se movió al cifrar; ROT13 = 13)', shift),
     ...field('Descifrado', output),
-    h('button', { onclick: () => all.replaceChildren(...Array.from({ length: 26 }, (_, k) => h('li', {}, `ROT-${k}: ${caesar(input.value, -k)}`))) }, '🔁 Probar los 26 desplazamientos'),
+    h('button', { onclick: () => all.replaceChildren(...Array.from({ length: 26 }, (_, k) => h('li', {}, `ROT-${k}: ${caesar(input.value, -k)}`))) }, 'Probar los 26 desplazamientos'),
     all,
   ];
 }
@@ -77,10 +78,10 @@ function crackTool() {
     out.className = 'feedback'; out.textContent = `Buscando (${type})…`;
     wordlist ??= (await import('../generated/wordlist.txt?raw')).default.split('\n').filter(Boolean);
     for (const w of wordlist) {
-      if ((await hashOf(type, w)) === target) { out.className = 'feedback ok'; out.textContent = `¡Encontrada! ${type}("${w}") = ${target.slice(0, 12)}…`; return; }
+      if ((await hashOf(type, w)) === target) { out.className = 'feedback ok'; out.textContent = `Encontrada: ${type}("${w}") = ${target.slice(0, 12)}…`; return; }
     }
     out.className = 'feedback err'; out.textContent = `No está entre las ${wordlist.length} contraseñas de la lista. ¡Eso es bueno para su dueño!`;
-  } }, '🔍 Buscar en la wordlist');
+  } }, 'Buscar en la wordlist');
   return [
     h('p', { class: 'muted' }, 'Compara el hash con los de ~5.000 contraseñas débiles. Así atacan los «crackeadores»: no «deshacen» el hash, prueban contraseñas comunes.'),
     ...field('Hash', input), btn, out,
@@ -101,9 +102,9 @@ function urlTool() {
           ...row('Subdominio', i.subdomain), ...row('Dominio real', i.registrable), ...row('Extensión', i.suffix),
           ...row('Puerto', i.port), ...row('Ruta', i.path), ...row('Fragmento', i.fragment),
           ...i.params.flatMap(([k, v]) => row(`Parámetro ${k}`, v))),
-        h('p', {}, '👉 El que manda es el ', h('strong', {}, 'dominio real'), ': léelo de derecha a izquierda desde la primera «/».'),
+        h('p', {}, 'El que manda es el ', h('strong', {}, 'dominio real'), ': léelo de derecha a izquierda desde la primera «/».'),
         i.warnings.length
-          ? h('ul', {}, ...i.warnings.map((w) => h('li', { class: 'feedback err' }, `⚠ ${w}`)))
+          ? h('ul', {}, ...i.warnings.map((w) => h('li', { class: 'feedback err' }, `[!] ${w}`)))
           : h('p', { class: 'feedback ok' }, 'Sin señales sospechosas evidentes (eso no garantiza que sea legítima).'));
     } catch { out.replaceChildren(h('p', { class: 'feedback err' }, 'No es una URL válida.')); }
   };
@@ -119,13 +120,13 @@ function packetTool() {
 
 // ---------- Contenedor ----------
 const TOOLS: [string, string, () => Node[]][] = [
-  ['decoder', '🔤 Decodificador Base64 / Hex / URL', decoderTool],
-  ['caesar', '🔄 César / ROT', caesarTool],
-  ['hash', '#️⃣ Calculadora de hash', hashTool],
-  ['crack', '🔓 Buscador de hash (wordlist)', crackTool],
-  ['exif', '🖼 Visor EXIF', () => []],
-  ['url', '🔗 Inspector de URL', urlTool],
-  ['packets', '📡 Visor de paquetes', packetTool],
+  ['decoder', 'decodificador base64 / hex / url', decoderTool],
+  ['caesar', 'césar / rot', caesarTool],
+  ['hash', 'calculadora de hash', hashTool],
+  ['crack', 'buscador de hash (wordlist)', crackTool],
+  ['exif', 'visor exif', () => []],
+  ['url', 'inspector de url', urlTool],
+  ['packets', 'visor de paquetes', packetTool],
 ];
 
 export function renderKit(samples: { label: string; url: string }[] = []): HTMLElement {

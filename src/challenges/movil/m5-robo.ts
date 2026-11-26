@@ -6,7 +6,7 @@ export const m5: Challenge = {
   title: '¡Me han robado el móvil!',
   difficulty: 'medio',
   story: [
-    'A Lucía le han quitado el móvil en el metro. Está nerviosa y su amiga le presta el suyo.',
+    'A Laura le han quitado el móvil en el metro. Está nerviosa y su amiga le presta el suyo.',
     'Ordena estos 6 pasos del primero al último.',
   ],
   render(el, ctx) {

@@ -1,5 +1,5 @@
 import { h } from '../ui/dom';
-import { distanceKm, toDms } from './codec';
+import { toDms } from './codec';
 
 // Lugares públicos conocidos (coordenadas aproximadas) para orientarse sin internet.
 const PLACES: [string, number, number][] = [
@@ -61,13 +61,15 @@ async function showExif(out: HTMLElement, data: ArrayBuffer | Blob, name: string
     h('dl', { class: 'kv' }, ...known.flatMap((k) => [h('dt', {}, LABELS[k]), h('dd', {}, fmt(tags![k]))])),
   ];
   if (typeof lat === 'number' && typeof lon === 'number') {
-    const near = PLACES.map(([n, la, lo]) => [n, distanceKm([lat, lon], [la, lo])] as const).sort((a, b) => a[1] - b[1]).slice(0, 3);
     nodes.push(
-      h('h3', {}, '📍 Ubicación GPS'),
+      h('h3', {}, 'GPS'),
       h('p', { class: 'mono' }, `${lat.toFixed(5)}, ${lon.toFixed(5)}`, h('br'), `${toDms(lat, 'N', 'S')}  ${toDms(lon, 'E', 'O')}`),
       miniMap(lat, lon),
-      h('p', {}, 'Lugares conocidos más cercanos:'),
-      h('ol', {}, ...near.map(([n, d]) => h('li', {}, `${n} — a ${d < 1 ? `${Math.round(d * 1000)} m` : `${d.toFixed(1)} km`}`))));
+      h('details', {}, h('summary', {}, 'Coordenadas de lugares conocidos (para comparar)'),
+        h('div', { class: 'table-wrap' }, h('table', {},
+          h('thead', {}, h('tr', {}, h('th', { scope: 'col' }, 'Lugar'), h('th', { scope: 'col' }, 'Latitud'), h('th', { scope: 'col' }, 'Longitud'))),
+          h('tbody', {}, ...[...PLACES].sort((x, y) => x[0].localeCompare(y[0])).map(([n, la, lo]) =>
+            h('tr', {}, h('td', {}, n), h('td', {}, la.toFixed(4)), h('td', {}, lo.toFixed(4)))))))));
   } else nodes.push(h('p', {}, 'Esta foto no tiene coordenadas GPS.'));
   nodes.push(h('details', {}, h('summary', {}, `Resto de etiquetas (${rest.length})`),
     h('dl', { class: 'kv' }, ...rest.flatMap((k) => [h('dt', {}, k), h('dd', {}, fmt(tags![k]).slice(0, 120))]))));
@@ -82,6 +84,6 @@ export function exifViewer(samples: { label: string; url: string }[]): HTMLEleme
     h('label', { for: 'exif-file' }, 'Abre una foto (no sale de tu dispositivo)'),
     file,
     samples.length > 0 && h('div', { class: 'row' }, ...samples.map((s) =>
-      h('button', { onclick: async () => showExif(out, await (await fetch(s.url)).blob(), s.label) }, `🖼 ${s.label}`))),
+      h('button', { onclick: async () => showExif(out, await (await fetch(s.url)).blob(), s.label) }, `Abrir ${s.label}`))),
     out);
 }

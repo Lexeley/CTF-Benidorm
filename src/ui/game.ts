@@ -43,7 +43,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
 
   function tick() {
     const left = s.startedAt ? GAME_SECONDS - elapsedSeconds(s) : GAME_SECONDS;
-    timerEl.textContent = left > 0 ? `⏱ ${fmtTime(left)}` : '⏱ 00:00 ¡TIEMPO!';
+    timerEl.textContent = left > 0 ? fmtTime(left) : '00:00 TIEMPO';
     timerEl.className = `timer${left <= 0 ? ' over' : left <= 300 ? ' low' : ''}`;
     if (left <= 0 && s.startedAt && !timeUpAnnounced) {
       timeUpAnnounced = true;
@@ -52,7 +52,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   }
   function refreshTop() {
     pointsEl.textContent = `${totalPoints(s, list)} pts`;
-    teamEl.textContent = s.team ? `👥 ${s.team}` : '';
+    teamEl.textContent = s.team ? s.team : '';
     tick();
   }
   setInterval(tick, 1000);
@@ -79,7 +79,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   addEventListener('hashchange', route);
 
   function renderTabs(active: string) {
-    const items: [string, string][] = [['retos', '🎯 Retos'], ['kit', '🧰 Kit'], ['equipo', '👥 Equipo']];
+    const items: [string, string][] = [['retos', 'retos'], ['kit', 'kit'], ['equipo', 'equipo']];
     tabs.replaceChildren(...items.map(([id, label]) =>
       h('a', { class: 'btn', role: 'tab', href: `#${id}`, 'aria-selected': String(active === id) }, label)));
   }
@@ -99,12 +99,12 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
     } },
       h('h1', {}, title),
       h('p', {}, mode === 'escritorio'
-        ? 'Lucía (17 años, personaje inventado) os ha dejado su portátil para que encontréis todo lo que un atacante podría aprovechar.'
-        : 'Lucía (17 años, personaje inventado) os ha dejado su móvil para que encontréis todo lo que un atacante podría aprovechar.'),
+        ? 'Laura (17 años, personaje inventado) os ha dejado su portátil para que encontréis todo lo que un atacante podría aprovechar.'
+        : 'Laura (17 años, personaje inventado) os ha dejado su móvil para que encontréis todo lo que un atacante podría aprovechar.'),
       h('p', { class: 'muted' }, `Tenéis ${GAME_SECONDS / 60} minutos y ${list.length} retos. El tiempo empieza al pulsar «Empezar».`),
       h('label', { for: 'team' }, 'Nombre del equipo'),
       input,
-      h('button', { class: 'primary', type: 'submit' }, '▶ Empezar'));
+      h('button', { class: 'primary', type: 'submit' }, 'Empezar'));
     queueMicrotask(() => input.focus());
     return form;
   }
@@ -122,10 +122,10 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
           h('span', { class: 'badges' },
             h('span', { class: `badge ${c.difficulty}` }, `${DIFF_LABEL[c.difficulty]} · ${POINTS[c.difficulty]}`),
             c.bonus && h('span', { class: 'badge' }, 'Bonus'),
-            solved && h('span', { class: 'badge solved' }, `✓ +${earned(c, s.hints[c.id] ?? 0)}`),
-            !solved && (s.hints[c.id] ?? 0) > 0 && h('span', { class: 'badge' }, `💡 ${s.hints[c.id]}`)));
+            solved && h('span', { class: 'badge solved' }, `resuelto +${earned(c, s.hints[c.id] ?? 0)}`),
+            !solved && (s.hints[c.id] ?? 0) > 0 && h('span', { class: 'badge' }, `pistas: ${s.hints[c.id]}`)));
       })),
-      solvedN === list.length && h('p', {}, h('a', { class: 'btn primary', href: '#resumen' }, '🏁 ¡Todo resuelto! Ver resumen')));
+      solvedN === list.length && h('p', {}, h('a', { class: 'btn primary', href: '#resumen' }, 'Todo resuelto. Ver resumen')));
   }
 
   // ---------- Vista de un reto ----------
@@ -149,7 +149,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
         s.solved[c.id] = elapsedSeconds(s);
         save();
         void scoreSync.publish(teamData());
-        live.textContent = `¡Correcto! +${earned(c, used)} puntos`;
+        live.textContent = `Correcto. +${earned(c, used)} puntos`;
         route();
         return;
       }
@@ -160,8 +160,8 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
       cooldownUntil = Date.now() + wait * 1000;
       const countdown = () => {
         const left = Math.ceil((cooldownUntil - Date.now()) / 1000);
-        if (left > 0) { feedback.textContent = `✗ No es correcto. Espera ${left}s para volver a intentarlo.`; setTimeout(countdown, 250); }
-        else { feedback.textContent = '✗ No es correcto. Revisa y vuelve a probar.'; submit.disabled = false; }
+        if (left > 0) { feedback.textContent = `Incorrecto. Espera ${left}s para volver a intentarlo.`; setTimeout(countdown, 250); }
+        else { feedback.textContent = 'Incorrecto.'; submit.disabled = false; }
       };
       feedback.className = 'feedback err';
       countdown();
@@ -185,22 +185,22 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
             save();
             route();
           },
-        }, `💡 Ver pista ${i + 1} (−${cost} pts)`);
+        }, `Ver pista ${i + 1} (-${cost} pts)`);
       }));
 
     return h('article', { class: 'stack' },
-      h('p', {}, h('a', { href: '#retos' }, '← Volver a los retos')),
+      h('p', {}, h('a', { href: '#retos' }, '< volver')),
       h('h1', {}, c.title),
       h('div', { class: 'badges' },
         h('span', { class: `badge ${c.difficulty}` }, DIFF_LABEL[c.difficulty]),
-        h('span', { class: 'badge' }, solved ? `✓ ${earned(c, used)} pts` : `${earned(c, used)} pts`),
+        h('span', { class: 'badge' }, solved ? `resuelto: ${earned(c, used)} pts` : `${earned(c, used)} pts`),
         c.bonus && h('span', { class: 'badge' }, 'Bonus')),
       ...c.story.map((p) => h('p', {}, p)),
       c.attachments?.length && h('div', { class: 'row' }, ...c.attachments.map((a) =>
-        h('a', { class: 'btn', href: a.url, download: a.filename }, `⬇ ${a.label}`))),
+        h('a', { class: 'btn', href: a.url, download: a.filename }, a.label))),
       widget,
       solved
-        ? h('div', { class: 'lesson', role: 'status' }, h('p', {}, h('strong', {}, '✓ ¡Resuelto! ')), h('p', {}, c.lesson))
+        ? h('div', { class: 'lesson', role: 'status' }, h('p', {}, h('strong', {}, 'Correcto. ')), h('p', {}, c.lesson))
         : form,
       hints);
   }
@@ -218,7 +218,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
       h('img', { src: qr.createDataURL(5, 4), alt: 'Código QR del equipo', width: 260, height: 260, style: 'image-rendering: pixelated; background:#fff; border-radius:8px' }),
       h('textarea', { readonly: true, 'aria-label': 'Código de equipo', rows: 3, onfocus: (e: Event) => (e.target as HTMLTextAreaElement).select() }, code),
       h('div', { class: 'row' },
-        h('button', { onclick: async () => { status.textContent = (await copyText(code)) ? 'Copiado ✓' : 'No se pudo copiar: selecciónalo y usa Ctrl+C'; } }, '📋 Copiar código'),
+        h('button', { onclick: async () => { status.textContent = (await copyText(code)) ? 'Copiado' : 'No se pudo copiar: selecciónalo y usa Ctrl+C'; } }, 'Copiar código'),
         status));
   }
 
@@ -231,7 +231,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
         h('dt', {}, 'Resueltos'), h('dd', {}, `${d.s.length}/${list.length}`),
         h('dt', {}, 'Pistas usadas'), h('dd', {}, String(d.h)),
         h('dt', {}, 'Tiempo'), h('dd', {}, fmtTime(elapsedSeconds(s)))),
-      h('p', {}, h('a', { class: 'btn primary', href: '#resumen' }, '🏁 Resumen final')),
+      h('p', {}, h('a', { class: 'btn primary', href: '#resumen' }, 'Resumen final')),
       codeBlock(),
       h('details', { class: 'card' },
         h('summary', {}, 'Opciones (para el profe)'),
@@ -242,7 +242,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
           s = loadState(mode);
           location.hash = '';
           route();
-        } }, '🗑 Reiniciar partida')));
+        } }, 'Reiniciar partida')));
   }
 
   // ---------- Resumen final ----------
@@ -251,7 +251,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
     const pending = list.filter((c) => !(c.id in s.solved));
     const tips = [...solved, ...pending].slice(0, 3);
     return h('section', { class: 'stack' },
-      h('h1', {}, '🏁 Resumen'),
+      h('h1', {}, 'Resumen'),
       h('p', {}, `${s.team}: ${totalPoints(s, list)} puntos · ${solved.length}/${list.length} retos · ${fmtTime(elapsedSeconds(s))}`),
       h('div', { class: 'card stack' },
         h('h2', {}, '3 ajustes que haría hoy mismo'),

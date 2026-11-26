@@ -83,9 +83,3 @@ export function toDms(dec: number, pos: string, neg: string): string {
   const d = Math.floor(a), mFloat = (a - d) * 60, m = Math.floor(mFloat), s = (mFloat - m) * 60;
   return `${d}° ${m}' ${s.toFixed(1)}" ${dec >= 0 ? pos : neg}`;
 }
-export function distanceKm(a: [number, number], b: [number, number]): number {
-  const R = 6371, rad = Math.PI / 180;
-  const dLat = (b[0] - a[0]) * rad, dLon = (b[1] - a[1]) * rad;
-  const x = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(x));
-}

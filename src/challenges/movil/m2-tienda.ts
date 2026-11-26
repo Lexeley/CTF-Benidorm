@@ -1,9 +1,9 @@
 import type { Challenge } from '../../core/types';
 import { h } from '../../ui/dom';
 
-const card = (k: string, icon: string, name: string, dev: string, stats: string, reviews: string[], perms: string, origin: string) =>
+const card = (k: string, name: string, dev: string, stats: string, reviews: string[], perms: string, origin: string) =>
   h('div', { class: 'card stack' },
-    h('h3', {}, `${k}. ${icon} ${name}`),
+    h('h3', {}, `[${k}] ${name}`),
     h('dl', { class: 'kv' },
       h('dt', {}, 'Desarrollador'), h('dd', {}, dev),
       h('dt', {}, 'Datos'), h('dd', {}, stats),
@@ -16,29 +16,29 @@ export const m2: Challenge = {
   title: 'La app pirata',
   difficulty: 'medio',
   story: [
-    'Lucía quiere el «Juego X» (inventado) sin pagar. Encuentra estas 4 fichas. Una es una trampa con malware.',
-    '¿Cómo se llama el desarrollador de la ficha falsa?',
+    'Laura quiere gemas gratis en Brawl Stars. Un amigo le pasa un enlace a una «tienda alternativa». Compara estas 4 fichas (simuladas): una es malware.',
+    '¿Cómo se llama el desarrollador de la ficha maliciosa?',
   ],
   render(el) {
     el.append(h('div', { class: 'grid' },
-      card('A', '🧩', 'Brain Puzzle Plus', 'Estudio Nube Azul', '5 M descargas · 4,5★ (82.000 reseñas)',
-        ['★★★★★ Me encanta, aunque tiene anuncios.', '★★★☆☆ Los últimos niveles son muy difíciles.', '★★★★☆ Entretenido para el bus.'],
-        'Internet', 'Tienda oficial del móvil'),
-      card('B', '🎮', 'Juego X GRATIS APK – Versión completa desbloqueada', 'FreeGamesAPK_Oficial', '500+ descargas · 5,0★ (6 reseñas)',
-        ['★★★★★ muy bueno funciona 100%', '★★★★★ muy bueno funciona 100%!!', '★★★★★ Muy bueno funciona 100 %', '★★★★★ excelente app recomendado'],
-        'SMS, Contactos, Accesibilidad (control total), Administrador del dispositivo, Instalar otras apps', 'Descarga directa (.apk) desde una web'),
-      card('C', '🎮', 'Juego X', 'Estudio X Games', '50 M descargas · 4,2★ (1,3 M reseñas)',
-        ['★★★★☆ Muy buen juego, la última actualización va algo lenta.', '★★☆☆☆ Demasiadas compras dentro del juego.', '★★★★★ Los gráficos son increíbles.'],
-        'Internet, Vibración', 'Tienda oficial del móvil'),
-      card('D', '🗒', 'Horario Escolar', 'Apps Pupitre S.L.', '1 M descargas · 4,6★ (21.000 reseñas)',
-        ['★★★★★ Por fin aclaro mi horario.', '★★★★☆ Echo de menos un modo oscuro.'],
-        'Notificaciones, Calendario', 'Tienda oficial del móvil')));
+      card('A', 'Brawl Stars', 'Supercell', '100 M+ descargas · 4,2 (24 M reseñas)',
+        ['3/5 Demasiadas compras dentro del juego.', '5/5 Lo juego todos los días con mis amigos.', '2/5 La última actualización me va lenta.'],
+        'Internet, Vibración, Notificaciones', 'Google Play'),
+      card('B', 'Brawl Stars Gems Generator 2026', 'Supercell Games Studio', '100 K+ descargas · 4,8 (3.100 reseñas)',
+        ['5/5 funciona 100% me dio 5000 gemas', '5/5 FUNCIONA 100% gracias!!', '5/5 funciona 100 % recomendado', '1/5 me pide verificar con mi número y no da nada'],
+        'SMS, Contactos, Servicio de accesibilidad, Administrador del dispositivo, Instalar apps desconocidas', 'Tienda alternativa (archivo .apk)'),
+      card('C', 'Candy Crush Saga', 'King', '1.000 M+ descargas · 4,6 (36 M reseñas)',
+        ['4/5 Adictivo, pero los niveles difíciles piden pagar.', '5/5 Clásico.'],
+        'Internet, Vibración', 'Google Play'),
+      card('D', 'Brawl Stars Tips & Guía', 'GamerGuides ES', '500 K+ descargas · 4,1 (8.000 reseñas)',
+        ['4/5 Buenas guías de brawlers, muchos anuncios.', '2/5 Algunas guías están desactualizadas.'],
+        'Internet', 'Google Play')));
   },
   hints: [
-    'Compara la ficha oficial con la que promete lo mismo «gratis»: descargas, reseñas, permisos y de dónde se instala.',
-    'Reseñas casi idénticas, pocas descargas, permisos de accesibilidad/administrador y un .apk fuera de la tienda: todo apunta a la misma ficha.',
+    'Que el nombre del desarrollador se parezca al oficial no lo hace oficial. Compara también permisos y de dónde se instala.',
+    'Ningún juego necesita Accesibilidad ni ser Administrador del dispositivo. Y las reseñas repetidas son compradas.',
   ],
   answerHelp: 'El nombre del desarrollador tal cual aparece.',
-  lesson: 'Las apps «pirata» fuera de la tienda oficial son la vía nº 1 de malware en Android. Señales: nombre exagerado, pocas descargas con nota perfecta, reseñas copiadas y permisos de control total.',
-  tip: 'Deja desactivado «Instalar apps de origen desconocido» y descarga solo de la tienda oficial.',
+  lesson: 'Los «generadores de gemas» y apps MOD fuera de la tienda oficial son de los cebos de malware más comunes entre adolescentes. Señales: desarrollador que imita al real, nota casi perfecta con reseñas copiadas y permisos de control total.',
+  tip: 'Deja desactivado «Instalar apps desconocidas» y descarga solo de la tienda oficial.',
 };

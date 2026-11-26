@@ -17,7 +17,7 @@ const words = [
   'naranja', 'pikachu', 'musica', 'baile', 'escuela', 'instituto', 'clase', 'colegio', 'madrid', 'españa', 'espana',
   'barcelona', 'valencia', 'sevilla', 'malaga', 'benidorm', 'alicante', 'dios', 'angel', 'diablo', 'campeon', 'ganador',
   'fiesta', 'feliz', 'vida', 'muerte', 'rosa', 'azul', 'rojo', 'verde', 'negro', 'blanco', 'amigos', 'novio', 'novia',
-  'carlos', 'maria', 'lucia', 'pablo', 'alejandro', 'daniel', 'javier', 'sergio', 'laura', 'paula', 'sara', 'marta',
+  'carlos', 'maria', 'laura', 'pablo', 'alejandro', 'daniel', 'javier', 'sergio', 'laura', 'paula', 'sara', 'marta',
   'david', 'jorge', 'hugo', 'martina', 'sofia', 'alba', 'carmen', 'antonio', 'manuel', 'jose', 'juan', 'ana',
   // EN
   'love', 'princess', 'football', 'soccer', 'baseball', 'basketball', 'monkey', 'shadow', 'sunshine', 'master', 'michael',

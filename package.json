@@ -1,7 +1,7 @@
 {
-  "name": "ctf-lucia",
+  "name": "ctf-laura",
   "version": "1.0.0",
-  "description": "CTF educativo estático: el portátil y el móvil de Lucía",
+  "description": "CTF educativo estático: el portátil y el móvil de Laura",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

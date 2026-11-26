@@ -7,8 +7,8 @@ export const e6: Challenge = {
   title: 'El wifi de la cafetería',
   difficulty: 'dificil',
   story: [
-    'Lucía se conectó al wifi abierto de una cafetería y entró en la web de socios de su club. Alguien en la misma red capturó el tráfico.',
-    'Casi todo va cifrado (TLS), pero una web no usa https. Encuentra la contraseña de Lucía en la captura.',
+    'Laura se conectó al wifi abierto de una cafetería y entró en la web de socios de su club. Alguien en la misma red capturó el tráfico.',
+    'Casi todo va cifrado (TLS), pero la web del club no usa https. Encuentra la contraseña correcta de Laura.',
   ],
   render(el) {
     const box = h('div', {}, h('p', { class: 'muted' }, 'Cargando captura…'));
@@ -16,7 +16,7 @@ export const e6: Challenge = {
     loadCapture().then((c) => box.replaceChildren(packetViewer(c)));
   },
   hints: [
-    'Escribe «http» en el filtro. Hay varias peticiones POST; solo una es un inicio de sesión.',
+    'Escribe «http» en el filtro. Hay varios POST: uno no es un login y otro es un login fallido. Mira la respuesta del servidor a cada uno.',
     'En los formularios los símbolos van codificados (%23, %21…). Pasa el valor de «clave» por «URL → texto» en el Decodificador del Kit.',
   ],
   answerHelp: 'La contraseña tal cual, ya decodificada.',

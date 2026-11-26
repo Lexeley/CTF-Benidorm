@@ -1,12 +1,12 @@
-# CTF educativo: los dispositivos de Lucía
+# CTF educativo: los dispositivos de Laura
 
-Web 100 % estática (sin backend, sin base de datos, sin cookies, sin analytics, sin llamadas a terceros) para un taller de ciberseguridad de 45 minutos con alumnado de 16-17 años. Todo es ficticio: Lucía, las marcas, los dominios y las apps.
+Web 100 % estática (sin backend, sin base de datos, sin cookies, sin analytics, sin llamadas a terceros) para un taller de ciberseguridad de 45 minutos con alumnado de 16-17 años. Laura (17 años), su familia, sus amigos y su instituto son ficticios. Aparecen marcas reales (Instagram, BBVA, Correos, DGT, Brawl Stars…) solo como ejemplo educativo, sin logos: todos los mensajes, fichas y capturas son simulados y ningún enlace es clicable. Los dominios fraudulentos son inventados.
 
 | Ruta | Qué es |
 |---|---|
 | `/` | Portada con selector de modo |
-| `/escritorio/` | «El portátil de Lucía»: 7 retos (hashes, OSINT, phishing, metadatos, cifrado, paquetes, auditoría) |
-| `/movil/` | «El móvil de Lucía»: 7 retos (permisos, tienda falsa, smishing, wifi gemela, robo, ubicación, rastreador) |
+| `/escritorio/` | «El portátil de Laura»: 7 retos (hashes, OSINT, phishing, metadatos, cifrado, paquetes, auditoría) |
+| `/movil/` | «El móvil de Laura»: 7 retos (permisos, tienda falsa, smishing, wifi gemela, robo, ubicación, rastreador) |
 | `/profe/` | Marcador: pegar/escanear códigos de equipo y ranking proyectable |
 
 Cada modo incluye la pestaña **Kit** con todas las herramientas (Base64/Hex/URL, César/ROT, hashes MD5/SHA-1/SHA-256, buscador de hash con wordlist de 5.000 contraseñas, visor EXIF con mapa esquemático y lugares cercanos, inspector de URL y visor de paquetes). Funciona sin internet una vez cargada la página: los trozos pesados se precargan en segundo plano.
@@ -40,7 +40,7 @@ Todo sale de scripts reproducibles en `scripts/`:
 | Script | Genera |
 |---|---|
 | `wordlist.mjs` | `src/generated/wordlist.txt`: 5.000 contraseñas débiles por combinación (no usa filtraciones reales) |
-| `puzzles.mjs` | `puzzles.json`: los 3 MD5 del reto e1 (comprueba que están en la wordlist) y el texto cifrado del e5 (César → hex → Base64) |
+| `puzzles.mjs` | `puzzles.json`: los hashes MD5/SHA-1/SHA-256 del reto e1 (comprueba que las débiles están en la wordlist y la frase larga no) y el texto cifrado del e5 (César → invertir → hex → Base64) |
 | `packets.mjs` | `packets.json`: captura simulada con PRNG de semilla fija, IPs de documentación (RFC 5737) y un POST http con credenciales |
 | `photos.mjs` | `foto-portatil.jpg` y `foto-movil.jpg`: dibujo procedural + EXIF (cámara inventada, fecha, GPS) |
 | `answers.mjs` | `answers.json`: sales nuevas y hashes de las respuestas aceptadas |
@@ -93,5 +93,5 @@ A mano: `VITE_BASE=/mi-repo/ npm run build` y publica `dist/`.
 ## Privacidad y seguridad
 
 - Política CSP estricta en cada página (`default-src 'self'`, sin scripts externos, `form-action 'none'`), `referrer` desactivado, `noindex`.
-- Sin fuentes, CDNs ni mapas externos. El progreso se guarda en `localStorage` (clave `ctf-lucia:*`) solo en el dispositivo; nada sale de él.
+- Sin fuentes, CDNs ni mapas externos. El progreso se guarda en `localStorage` (clave `ctf-laura:*`) solo en el dispositivo; nada sale de él.
 - Ningún enlace de los retos es clicable y no hay formularios que recojan datos: los «portales» y «webs falsas» son capturas simuladas.
