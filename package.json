@@ -7,7 +7,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "gen": "node scripts/wordlist.mjs && node scripts/hashes.mjs && node scripts/packets.mjs && node scripts/photos.mjs",
+    "gen": "node scripts/wordlist.mjs && node scripts/puzzles.mjs && node scripts/packets.mjs && node scripts/photos.mjs && node scripts/answers.mjs",
     "answers": "node scripts/answers.mjs",
     "check": "node scripts/check-answers.mjs"
   },

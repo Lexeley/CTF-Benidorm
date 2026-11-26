@@ -42,7 +42,7 @@ function miniMap(lat: number, lon: number): SVGSVGElement {
 
 const LABELS: Record<string, string> = {
   Make: 'Fabricante', Model: 'Modelo', Software: 'Software', DateTimeOriginal: 'Fecha de la foto', CreateDate: 'Fecha de creación',
-  ImageDescription: 'Descripción', Artist: 'Autor', latitude: 'Latitud', longitude: 'Longitud', GPSAltitude: 'Altitud (m)',
+  ImageDescription: 'Descripción', Artist: 'Autor', GPSAltitude: 'Altitud (m)',
 };
 
 async function showExif(out: HTMLElement, data: ArrayBuffer | Blob, name: string) {
@@ -54,7 +54,7 @@ async function showExif(out: HTMLElement, data: ArrayBuffer | Blob, name: string
 
   const fmt = (v: unknown) => (v instanceof Date ? v.toLocaleString('es-ES') : Array.isArray(v) ? v.join(', ') : String(v));
   const known = Object.keys(LABELS).filter((k) => k in tags!);
-  const rest = Object.keys(tags).filter((k) => !(k in LABELS) && !/^GPS(Latitude|Longitude)/.test(k));
+  const rest = Object.keys(tags).filter((k) => !(k in LABELS) && !/^(GPS(Latitude|Longitude)|latitude|longitude)/.test(k));
   const lat = tags.latitude as number | undefined, lon = tags.longitude as number | undefined;
   const nodes: Node[] = [
     h('h3', {}, `Metadatos de «${name}»`),

@@ -21,7 +21,7 @@ export function startGame(mode: Mode, title: string, list: Challenge[]): void {
   const app = document.getElementById('app')!;
   let s: GameState = loadState(mode);
   const save = () => saveState(mode, s);
-  const samples = list.flatMap((c) => c.attachments ?? []).filter((a) => /\.jpe?g$/i.test(a.filename));
+  const samples = list.flatMap((c) => c.attachments ?? []).filter((a) => /\.jpe?g$/i.test(a.filename)).map((a) => ({ label: a.filename, url: a.url }));
 
   const timerEl = h('span', { class: 'timer', 'aria-label': 'Tiempo restante' }, '35:00');
   const pointsEl = h('span', {}, '0 pts');
